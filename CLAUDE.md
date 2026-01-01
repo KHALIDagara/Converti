@@ -28,7 +28,7 @@ Rails 8 application for generating and managing landing pages. Built with modern
 
 ### Server
 ```bash
-# Start development server with Tailwind watch (recommended)
+# Start development server (Tailwind is currently disabled)
 bin/dev
 
 # Or start rails server only
@@ -71,14 +71,6 @@ bundle exec rubocop -a
 bundle exec brakeman
 ```
 
-### Assets
-```bash
-# Watch Tailwind CSS changes
-bin/rails tailwindcss:watch
-
-# Build Tailwind for production
-bin/rails tailwindcss:build
-```
 
 ## Architecture Notes
 
@@ -88,11 +80,27 @@ The LandingPage model uses a custom pattern for JSON field initialization. Defau
 ### Active Storage
 Both models use Active Storage for file attachments. LandingPage has multiple attachments (video, logo, background), while Service has a single image attachment.
 
+### Nested Routing
+Services are nested under LandingPages (`/landing_pages/:landing_page_id/services`). Only new, create, edit, update, and destroy actions are available for services - they are always accessed through their parent landing page.
+
 ### Controller Pattern
 Standard Rails scaffold controllers with `before_action :set_resource` for show/edit/update/destroy actions. Uses Rails 8's `params.expect()` for strong parameters instead of the older `params.require().permit()` pattern.
 
+**Strong Parameters for Nested JSON:** When permitting nested JSON attributes (like `styles` and `copywriting`), use nested hash syntax:
+```ruby
+params.expect(landing_page: [
+  :title,
+  { copywriting: { hero_section: [:heading, :subheading] } },
+  { styles: { colors: [:primaryColor, :secondaryColor], fonts: [:primaryFont, :secondaryFont] } }
+])
+```
+
+### Turbo Stream Integration
+ServicesController responds to Turbo Stream format for create, update, and destroy actions, enabling inline CRUD operations without full page reloads. After successful operations, it redirects HTML format to the parent landing page's edit page.
+
 ### Tech Stack
-- **Frontend:** Hotwire (Turbo Rails + Stimulus), Tailwind CSS, Importmap for JS
+- **Frontend:** Hotwire (Turbo Rails + Stimulus), Importmap for JS
+- **Note:** Tailwind CSS gem is currently disabled (commented out in Gemfile and Procfile.dev)
 - **Database:** SQLite3 with Active Storage for file uploads
 - **Background Jobs:** Solid Queue (database-backed)
 - **Caching:** Solid Cache (database-backed)

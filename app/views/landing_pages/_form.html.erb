@@ -1,9 +1,8 @@
-<%= form_with(model: landing_page, class: "contents") do |form| %>
+<%= form_with(model: landing_page, class: "landing-page-form") do |form| %>
   <% if landing_page.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+    <div class="form-errors">
       <h2><%= pluralize(landing_page.errors.count, "error") %> prohibited this landing_page from being saved:</h2>
-
-      <ul class="list-disc ml-6">
+      <ul>
         <% landing_page.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,27 +10,173 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :title %>
-    <%= form.text_field :title, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": landing_page.errors[:title].none?, "border-red-400 focus:outline-red-600": landing_page.errors[:title].any?}] %>
+  <div class="form-field">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-input" %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :copywriting %>
-    <%= form.text_field :copywriting, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": landing_page.errors[:copywriting].none?, "border-red-400 focus:outline-red-600": landing_page.errors[:copywriting].any?}] %>
+  <fieldset class="fieldset-group">
+    <legend>Copywriting</legend>
+    <div class="form-field">
+      <%= label_tag 'landing_page[copywriting][hero_section][heading]', "Hero Heading", class: "form-label" %>
+      <%= text_field_tag 'landing_page[copywriting][hero_section][heading]', landing_page.copywriting.dig('hero_section', 'heading'), class: "form-input" %>
+    </div>
+    <div class="form-field">
+      <%= label_tag 'landing_page[copywriting][hero_section][subheading]', "Hero Subheading", class: "form-label" %>
+      <%= text_field_tag 'landing_page[copywriting][hero_section][subheading]', landing_page.copywriting.dig('hero_section', 'subheading'), class: "form-input" %>
+    </div>
+     <div class="form-field">
+      <%= form.label :phone_number, class: "form-label" %>
+      <%= form.text_field :phone_number, class: "form-input" %> 
+    </div>
+  </fieldset>
+
+  <fieldset class="fieldset-group">
+    <legend>Styles</legend>
+    <div class="form-field">
+      <%= label_tag 'landing_page[styles][colors][primaryColor]', "Primary Color", class: "form-label" %>
+      <%= color_field_tag 'landing_page[styles][colors][primaryColor]', landing_page.styles.dig('colors', 'primaryColor'), class: "form-color-input" %>
+    </div>
+
+     <div class="form-field">
+      <%= label_tag 'landing_page[styles][colors][secondaryColor]', "Secondary Color", class: "form-label" %>
+      <%= color_field_tag 'landing_page[styles][colors][secondaryColor]', landing_page.styles.dig('colors', 'secondaryColor'), class: "form-color-input" %>
+    </div>
+
+    <div class="form-field">
+      <%= label_tag 'landing_page[styles][colors][lightColor]', "Light Color", class: "form-label" %>
+      <%= color_field_tag 'landing_page[styles][colors][lightColor]', landing_page.styles.dig('colors', 'lightColor'), class: "form-color-input" %>
+    </div>
+    <div class="form-field">
+      <%= label_tag 'landing_page[styles][colors][darkColor]', "Dark Color", class: "form-label" %>
+      <%= color_field_tag 'landing_page[styles][colors][darkColor]', landing_page.styles.dig('colors', 'darkColor'), class: "form-color-input" %>
+    </div>
+    <%= select_tag 'landing_page[styles][fonts][primaryFont]',
+        options_for_select(['Tageschrfit','Oswald','Barrio'], landing_page.styles.dig('fonts','primaryFont')),
+        class: "form-input" %> 
+    <div class="form-field">
+      <%= label_tag 'landing_page[styles][fonts][secondaryFont]', "Secondary Font", class: "form-label" %>
+      <%= text_field_tag 'landing_page[styles][fonts][secondaryFont]', landing_page.styles.dig('fonts', 'secondaryFont'), class: "form-input" %>
+    </div>
+  </fieldset>
+
+
+  <div class="form-field">
+    <%= form.label :logo, class: "form-label" %>
+    <%= form.file_field :logo, class: "form-file-input" %>
+    <% if landing_page.logo.attached? %>
+      <p class="current-file">Current: <%= landing_page.logo.filename %></p>
+    <% end %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :styles %>
-    <%= form.text_field :styles, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": landing_page.errors[:styles].none?, "border-red-400 focus:outline-red-600": landing_page.errors[:styles].any?}] %>
+  <div class="form-field">
+    <%= form.label :hero_video, class: "form-label" %>
+    <%= form.file_field :hero_video, class: "form-file-input" %>
+    <% if landing_page.hero_video.attached? %>
+      <p class="current-file">Current: <%= landing_page.hero_video.filename %></p>
+    <% end %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :services_id %>
-    <%= form.text_field :services_id, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": landing_page.errors[:services_id].none?, "border-red-400 focus:outline-red-600": landing_page.errors[:services_id].any?}] %>
+  <div class="form-field">
+    <%= form.label :background_image, class: "form-label" %>
+    <%= form.file_field :background_image, class: "form-file-input" %>
+    <% if landing_page.background_image.attached? %>
+      <p class="current-file">Current: <%= landing_page.background_image.filename %></p>
+    <% end %>
   </div>
 
-  <div class="inline">
-    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  <div class="form-actions">
+    <%= form.submit "Update Landing page", class: "submit-button" %>
   </div>
 <% end %>
+
+<style>
+  .landing-page-form {
+    width: 100%;
+  }
+
+  .form-errors {
+    background-color: #fee;
+    color: #c00;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  .form-errors ul {
+    margin: 10px 0 0 20px;
+  }
+
+  .form-field {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+
+  .form-input {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: #0066cc;
+  }
+
+  .form-color-input {
+    display: block;
+    width: 100px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .form-file-input {
+    display: block;
+    margin-top: 5px;
+  }
+
+  .current-file {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #666;
+  }
+
+  .fieldset-group {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .fieldset-group legend {
+    font-weight: 600;
+    padding: 0 5px;
+  }
+
+  .form-actions {
+    margin-top: 20px;
+  }
+
+  .submit-button {
+    padding: 10px 20px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .submit-button:hover {
+    background-color: #0052a3;
+  }
+</style>

@@ -1,0 +1,18 @@
+<%= turbo_stream.replace dom_id(@service) do %>
+  <%= render @service %>
+<% end %>
+
+<%= turbo_stream.replace "edit-services-section" do %>
+  <%= turbo_frame_tag "edit-services-section" do %>
+    <div id="services-list">
+      <%= render @landing_page.services %>
+    </div>
+
+    <div class="services-actions">
+      <%= link_to "Add New Service",
+                  new_landing_page_service_path(@landing_page),
+                  class: "new-service-button",
+                  data: { turbo_frame: "edit-services-section" } %>
+    </div>
+  <% end %>
+<% end %>

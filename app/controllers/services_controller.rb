@@ -1,4 +1,5 @@
 class ServicesController < ApplicationController
+  before_action :set_landing_page
   before_action :set_service, only: %i[ show edit update destroy ]
 
   # GET /services or /services.json
@@ -12,7 +13,7 @@ class ServicesController < ApplicationController
 
   # GET /services/new
   def new
-    @service = Service.new
+    @service = @landing_page.services.build
   end
 
   # GET /services/1/edit
@@ -21,11 +22,12 @@ class ServicesController < ApplicationController
 
   # POST /services or /services.json
   def create
-    @service = Service.new(service_params)
+    @service = @landing_page.services.build(service_params)
 
     respond_to do |format|
       if @service.save
-        format.html { redirect_to @service, notice: "Service was successfully created." }
+        format.html { redirect_to edit_landing_page_path(@landing_page), notice: "Service was successfully created." }
+        format.turbo_stream
         format.json { render :show, status: :created, location: @service }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +40,8 @@ class ServicesController < ApplicationController
   def update
     respond_to do |format|
       if @service.update(service_params)
-        format.html { redirect_to @service, notice: "Service was successfully updated.", status: :see_other }
+        format.html { redirect_to edit_landing_page_path(@landing_page), notice: "Service was successfully updated.", status: :see_other }
+        format.turbo_stream
         format.json { render :show, status: :ok, location: @service }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,19 +55,24 @@ class ServicesController < ApplicationController
     @service.destroy!
 
     respond_to do |format|
-      format.html { redirect_to services_path, notice: "Service was successfully destroyed.", status: :see_other }
+      format.html { redirect_to edit_landing_page_path(@landing_page), notice: "Service was successfully destroyed.", status: :see_other }
+      format.turbo_stream
       format.json { head :no_content }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def set_landing_page
+      @landing_page = LandingPage.find(params.expect(:landing_page_id))
+    end
+
     def set_service
-      @service = Service.find(params.expect(:id))
+      @service = @landing_page.services.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.
     def service_params
-      params.expect(service: [ :title, :description ])
+      params.expect(service: [ :title, :description, :image, :landing_page_id ])
     end
 end

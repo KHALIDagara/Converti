@@ -1,10 +1,96 @@
-<div id="<%= dom_id service %>" class="w-full sm:w-auto my-5 space-y-5">
-  <div>
-    <strong class="block font-medium mb-1">Title:</strong>
-    <%= service.title %>
+<div id="<%= dom_id service %>" class="service-card">
+  <% if service.image.attached? %>
+    <div class="service-image">
+      <%= image_tag service.image, alt: service.title %>
+    </div>
+  <% end %>
+
+  <div class="service-content">
+    <h4 class="service-title"><%= service.title %></h4>
+    <p class="service-description"><%= service.description %></p>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Description:</strong>
-    <%= service.description %>
+
+  <div class="service-actions">
+    <%= link_to "Edit",
+        edit_landing_page_service_path(service.landing_page, service),
+        class: "edit-service-button",
+        data: { turbo_frame: "edit-services-section" } %>
+    <%= button_to "Delete",
+        landing_page_service_path(service.landing_page, service),
+        method: :delete,
+        class: "delete-service-button",
+        form: { data: { turbo_confirm: "Are you sure?" } } %>
   </div>
-</div>
+
+<style>
+  .service-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+  }
+
+  .service-image {
+    margin-bottom: 10px;
+  }
+
+  .service-image img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .service-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .service-title {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+
+  .service-description {
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .service-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .edit-service-button {
+    padding: 6px 12px;
+    background-color: #0066cc;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  .edit-service-button:hover {
+    background-color: #0052a3;
+  }
+
+  .delete-service-button {
+    padding: 6px 12px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+  }
+
+  .delete-service-button:hover {
+    background-color: #c82333;
+  }
+</style>

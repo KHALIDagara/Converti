@@ -1,27 +1,152 @@
-<%= form_with(model: service, class: "contents") do |form| %>
-  <% if service.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(service.errors.count, "error") %> prohibited this service from being saved:</h2>
+<%= turbo_frame_tag "edit-services-section" do %>
+  <%= form_with(model: [@landing_page, @service], class: "service-form") do |form| %>
+    <% if @service.errors.any? %>
+      <div class="form-errors">
+        <h2><%= pluralize(@service.errors.count, "error") %> prohibited this service from being saved:</h2>
+        <ul>
+          <% @service.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-      <ul class="list-disc ml-6">
-        <% service.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <%= form.hidden_field :landing_page_id, value: @landing_page.id %>
+
+    <div class="form-field">
+      <%= form.label :title, class: "form-label" %>
+      <%= form.text_field :title, class: "form-input" %>
+    </div>
+
+   
+    <div class="form-field">
+      <%= form.label :description, class: "form-label" %>
+      <%= form.text_area :description, class: "form-textarea" %>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :image, "Service Image", class: "form-label" %>
+      <%= form.file_field :image, accept: "image/*", class: "form-file-input" %>
+      <% if @service.image.attached? %>
+        <div class="current-image">
+          <%= image_tag @service.image %>
+          <p>Current image</p>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit "Save Service", class: "submit-button" %>
+      <%= link_to "Cancel",
+                  edit_landing_page_path(@landing_page),
+                  class: "cancel-button",
+                  data: { turbo_frame: "_top" } %>
     </div>
   <% end %>
-
-  <div class="my-5">
-    <%= form.label :title %>
-    <%= form.text_field :title, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": service.errors[:title].none?, "border-red-400 focus:outline-red-600": service.errors[:title].any?}] %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :description %>
-    <%= form.text_field :description, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": service.errors[:description].none?, "border-red-400 focus:outline-red-600": service.errors[:description].any?}] %>
-  </div>
-
-  <div class="inline">
-    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
-  </div>
 <% end %>
+
+<style>
+  .service-form {
+    max-width: 600px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+  }
+
+  .form-errors {
+    background-color: #fee;
+    color: #c00;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  .form-errors ul {
+    margin: 10px 0 0 20px;
+  }
+
+  .form-field {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+
+  .form-input,
+  .form-textarea {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .form-textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: #0066cc;
+  }
+
+  .form-file-input {
+    display: block;
+    margin-top: 5px;
+  }
+
+  .current-image {
+    margin-top: 10px;
+  }
+
+  .current-image img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .current-image p {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #666;
+  }
+
+  .form-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .submit-button {
+    padding: 10px 20px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .submit-button:hover {
+    background-color: #0052a3;
+  }
+
+  .cancel-button {
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .cancel-button:hover {
+    background-color: #5a6268;
+  }
+</style>

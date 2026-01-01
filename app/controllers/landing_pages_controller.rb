@@ -38,7 +38,7 @@ class LandingPagesController < ApplicationController
   def update
     respond_to do |format|
       if @landing_page.update(landing_page_params)
-        format.html { redirect_to @landing_page, notice: "Landing page was successfully updated.", status: :see_other }
+        format.html { redirect_to edit_landing_page_path(@landing_page), notice: "Landing page was successfully updated.", status: :see_other }
         format.json { render :show, status: :ok, location: @landing_page }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -65,6 +65,15 @@ class LandingPagesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def landing_page_params
-      params.expect(landing_page: [ :title, :copywriting, :styles, :services_id ])
+      ### the controller only permit the flat keys that's is why 
+      # we have destructed this json 
+      params.expect(landing_page: [
+        :title,
+        { copywriting: { hero_section: [:heading, :subheading] } },
+        { styles: { colors: [:primaryColor, :secondaryColor ,:lightColor , :darkColor], fonts: [:primaryFont, :secondaryFont] } },
+        :logo,
+        :hero_video,
+        :background_image
+      ])
     end
 end
