@@ -1,0 +1,149 @@
+<% content_for :title, "Landing pages" %>
+
+<style>
+  .landing-pages-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .notice {
+    background-color: #f0fdf4;
+    color: #16a34a;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .btn-new {
+    background-color: #2563eb;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .btn-new:hover {
+    background-color: #1d4ed8;
+  }
+
+  .landing-pages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .landing-page-card {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 24px;
+    transition: box-shadow 0.2s;
+  }
+
+  .landing-page-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  .landing-page-card h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    color: #1f2937;
+  }
+
+  .card-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn {
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .btn-view {
+    background-color: #2563eb;
+    color: white;
+  }
+
+  .btn-view:hover {
+    background-color: #1d4ed8;
+  }
+
+  .btn-edit {
+    background-color: #f3f4f6;
+    color: #374151;
+  }
+
+  .btn-edit:hover {
+    background-color: #e5e7eb;
+  }
+
+  .btn-delete {
+    background-color: #dc2626;
+    color: white;
+  }
+
+  .btn-delete:hover {
+    background-color: #b91c1c;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #6b7280;
+    grid-column: 1 / -1;
+  }
+</style>
+
+<div class="landing-pages-container">
+  <% if notice.present? %>
+    <p class="notice" id="notice"><%= notice %></p>
+  <% end %>
+
+  <div class="header">
+    <h1>Landing pages</h1>
+    <%= link_to "New landing page", new_landing_page_path, class: "btn-new" %>
+  </div>
+
+  <div id="landing_pages" class="landing-pages-grid">
+    <% if @landing_pages.any? %>
+      <% @landing_pages.each do |landing_page| %>
+        <div id="<%= dom_id landing_page %>" class="landing-page-card">
+          <h2><%= landing_page.title %></h2>
+
+          <div class="card-buttons">
+            <%= link_to "View", landing_page, class: "btn btn-view" %>
+            <%= link_to "Edit", edit_landing_page_path(landing_page), class: "btn btn-edit" %>
+            <%= button_to "Delete", landing_page, method: :delete, class: "btn btn-delete", data: { turbo_confirm: "Are you sure?" } %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="empty-state">No landing pages found.</p>
+    <% end %>
+  </div>
+</div>

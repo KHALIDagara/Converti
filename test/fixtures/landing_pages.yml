@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  copywriting: 
+  styles: 
+  services: one
+
+two:
+  title: MyString
+  copywriting: 
+  styles: 
+  services: two
