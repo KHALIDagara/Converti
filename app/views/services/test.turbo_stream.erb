@@ -1,0 +1,9 @@
+<%# this is test.turbo_stream.erb %> 
+<%= turbo_stream.replace "test-container" do %>
+  <%= turbo_frame_tag "test-container" do %>
+      <h1> hello world </h1> 
+      <%= link_to "replace me to test 2 ", test2_landing_page_services_path(@landing_page, format: :turbo_stream),
+      class: "lp-btn lp-btn--success",
+      data: { turbo_frame: "test-container" } %> 
+  <% end %>
+<% end %>

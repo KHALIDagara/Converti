@@ -7,8 +7,11 @@
     --dark-color: <%= @landing_page.styles.dig('colors','darkColor') %>;
     --primary-font: <%= @landing_page.styles.dig('fonts', 'primaryFont') %>;
     
+    background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+    url('<%= url_for(@landing_page.background_image) if @landing_page.background_image.attached? %>');
+    color: var(--secondary-color);
     font-family: var(--primary-font);
-    color: #333;
     line-height: 1.6;
     display: flex;
     flex-direction: column;
@@ -21,8 +24,6 @@
 
 
   .hero-section {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
     padding: 60px 20px;
     text-align: center;
     border-radius: 8px;
@@ -104,7 +105,9 @@
 
   <%# 1. Hero Section %>
   <header class="hero-section">
-    <%= image_tag @landing_page.logo %>
+    <% if @landing_page.logo.attached? %>
+      <%= image_tag @landing_page.logo, style: "max-width: 100px; max-height: 100px;" %>
+    <% end %>
     <h1><%= @landing_page.copywriting.dig('hero_section', 'heading') %></h1>
     <p><%= @landing_page.copywriting.dig('hero_section', 'subheading') %></p>
     <% if @landing_page.hero_video.attached? %>
@@ -140,6 +143,8 @@
           
           <h3 class="service-title"><%= service.title %></h3>
           <p><%= service.description %></p>
+          <button class="whatsapp-button"> Get Our Service </button>
+
         </article>
       <% end %>
     </div>

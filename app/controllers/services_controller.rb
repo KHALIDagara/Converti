@@ -20,6 +20,20 @@ class ServicesController < ApplicationController
   def edit
   end
 
+
+  def test 
+    respond_to do |format| 
+      format.turbo_stream 
+    end
+  end
+
+
+  def test2
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
   # POST /services or /services.json
   def create
     @service = @landing_page.services.build(service_params)

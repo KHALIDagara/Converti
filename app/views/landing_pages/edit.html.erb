@@ -1,40 +1,39 @@
 <% content_for :title, "Editing landing page" %>
 
 <div class="lp-editor">
-  <aside class="lp-editor__sidebar">
-    <%= turbo_frame_tag "edit-services-section" do %>
-      <section class="lp-editor__card">
-        <h3 class="lp-editor__card-title">Services</h3>
-        <div id="services-list">
-          <%= render @landing_page.services %>
-        </div>
-        <div class="lp-editor__card-actions">
-          <%= link_to "Add New Service",
-                      new_landing_page_service_path(@landing_page),
-                      class: "lp-btn lp-btn--success",
-                      data: { turbo_frame: "edit-services-section" } %>
-        </div>
-      </section>
-    <% end %>
-
-    <section class="lp-editor__card">
-      <h3 class="lp-editor__card-title">Landing Page Details</h3>
-      <%= render "form", landing_page: @landing_page %>
-    </section>
-
-    <div class="lp-editor__footer">
+  <%# the part 1 .. the pane 1 %> 
+    <aside class="lp-editor__sidebar">
+      <div class="switch-buttons" >
+        <%= link_to "Styles", styles_landing_page_path(@landing_page),
+            class: "lp-btn lp-btn--success",
+            data: {turbo_frame: "editor-replacable"} %>
+        <%= link_to "copywriting", copywriting_landing_page_path(@landing_page),
+            class: "lp-btn lp-btn--success",
+            data: {turbo_frame: "editor-replacable"} %>
+        <%= link_to "services", services_landing_page_path(@landing_page),
+            class: "lp-btn lp-btn--success",
+            data: {turbo_frame: "editor-replacable"} %>
+      </div> 
+      <%= turbo_frame_tag "editor-replacable" do %> 
+        <h1> editor replacable </h1> 
+      <% end %> 
+      <div class="lp-editor__footer">
       <%= link_to "View Show Page", @landing_page, class: "lp-btn lp-btn--success", target: "_blank" %>
       <%= link_to "Back to landing pages", landing_pages_path, class: "lp-btn lp-btn--secondary" %>
     </div>
+    
   </aside>
 
+  <%# the part two ... or the pane two %>
   <main class="lp-editor__preview">
     <header class="lp-editor__preview-header">
       <h2>Preview</h2>
     </header>
-    <div class="lp-editor__canvas">
-      <%= render "canvas", landing_page: @landing_page %>
-    </div>
+    <%= turbo_frame_tag "canvas-preview" do %>
+      <div class="lp-editor__canvas">
+        <%= render "canvas", landing_page: @landing_page %>
+      </div>
+    <% end %>
   </main>
 </div>
 
@@ -180,6 +179,9 @@
 
   .lp-btn--secondary:hover {
     background-color: var(--lp-color-neutral-hover);
+  }
+  .switch-buttons{ 
+    display: flex;  
   }
 
   /* Turbo Frame Reset */

@@ -1,5 +1,5 @@
 class LandingPagesController < ApplicationController
-  before_action :set_landing_page, only: %i[ show edit update destroy ]
+  before_action :set_landing_page, only: %i[ show edit update destroy styles copywriting services ]
 
   # GET /landing_pages or /landing_pages.json
   def index
@@ -39,6 +39,7 @@ class LandingPagesController < ApplicationController
     respond_to do |format|
       if @landing_page.update(landing_page_params)
         format.html { redirect_to edit_landing_page_path(@landing_page), notice: "Landing page was successfully updated.", status: :see_other }
+        format.turbo_stream
         format.json { render :show, status: :ok, location: @landing_page }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -55,6 +56,18 @@ class LandingPagesController < ApplicationController
       format.html { redirect_to landing_pages_path, notice: "Landing page was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
+  end
+
+  # STYLSE 
+  def styles
+  end
+
+
+  def copywriting 
+  end
+
+
+  def services 
   end
 
   private

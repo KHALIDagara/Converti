@@ -163,17 +163,24 @@
   }
 
   .form-actions {
+    position: sticky;
+    bottom: 0;
+    background-color: var(--lp-bg-primary, #ffffff); /* Matches your sidebar background */
+    padding: 15px 0;
+    border-top: 1px solid #ddd;
+    z-index: 10;
     margin-top: 20px;
   }
 
   .submit-button {
-    padding: 10px 20px;
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+      width: 100%; /* Optional: making it full-width looks great in sticky footers */
+      padding: 12px 20px;
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
   }
 
   .submit-button:hover {
