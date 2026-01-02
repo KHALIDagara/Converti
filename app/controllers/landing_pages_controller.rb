@@ -1,5 +1,5 @@
 class LandingPagesController < ApplicationController
-  before_action :set_landing_page, only: %i[ show edit update destroy styles copywriting services ]
+  before_action :set_landing_page, only: %i[ show edit update destroy styles business_details copywriting services ]
 
   # GET /landing_pages or /landing_pages.json
   def index
@@ -63,11 +63,13 @@ class LandingPagesController < ApplicationController
   end
 
 
-  def copywriting 
+  def business_details
   end
 
+  def copywriting
+  end
 
-  def services 
+  def services
   end
 
   private
@@ -83,10 +85,13 @@ class LandingPagesController < ApplicationController
       params.expect(landing_page: [
         :title,
         { copywriting: { hero_section: [:heading, :subheading] } },
+        { business_details: [:business_name, :business_description, :conversion_goal, :call_to_action, :target_audience, selling_points: [], keywords: []] },
         { styles: { colors: [:primaryColor, :secondaryColor ,:lightColor , :darkColor], fonts: [:primaryFont, :secondaryFont] } },
         :logo,
         :hero_video,
         :background_image
       ])
     end
+
+
 end

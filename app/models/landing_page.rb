@@ -48,4 +48,14 @@ class LandingPage < ApplicationRecord
        }
     }
   end
+
+
+  def set_default_business_details
+    self.business_details = {
+      business_name: "",
+      business_description: "",
+      selling_points: [],
+      keywords: []
+    }
+  end
 end

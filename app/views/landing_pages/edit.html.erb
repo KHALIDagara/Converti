@@ -1,18 +1,22 @@
 <% content_for :title, "Editing landing page" %>
 
 <div class="lp-editor">
-  <%# the part 1 .. the pane 1 %> 
+  <%# the part 1 .. the pane 1 %>
+    <div data-controller="hello">This is for testing </div>
     <aside class="lp-editor__sidebar">
-      <div class="switch-buttons" >
+      <div class="switch-buttons" data-controller="tabs">
         <%= link_to "Styles", styles_landing_page_path(@landing_page),
             class: "lp-btn lp-btn--success",
-            data: {turbo_frame: "editor-replacable"} %>
-        <%= link_to "copywriting", copywriting_landing_page_path(@landing_page),
+            data: {turbo_frame: "editor-replacable", tabs_target: "tab", action: "click->tabs#select"} %>
+        <%= link_to "Business Details", business_details_landing_page_path(@landing_page),
             class: "lp-btn lp-btn--success",
-            data: {turbo_frame: "editor-replacable"} %>
-        <%= link_to "services", services_landing_page_path(@landing_page),
+            data: {turbo_frame: "editor-replacable", tabs_target: "tab", action: "click->tabs#select"} %>
+        <%= link_to "Copywriting", copywriting_landing_page_path(@landing_page),
             class: "lp-btn lp-btn--success",
-            data: {turbo_frame: "editor-replacable"} %>
+            data: {turbo_frame: "editor-replacable", tabs_target: "tab", action: "click->tabs#select"} %>
+        <%= link_to "Services", services_landing_page_path(@landing_page),
+            class: "lp-btn lp-btn--success",
+            data: {turbo_frame: "editor-replacable", tabs_target: "tab", action: "click->tabs#select"} %>
       </div> 
       <%= turbo_frame_tag "editor-replacable" do %> 
         <h1> editor replacable </h1> 
@@ -176,6 +180,11 @@
     flex: 1;
     padding: 10px 16px;
     font-size: 0.8125rem;
+  }
+
+  .switch-buttons .lp-btn.active {
+    background-color: purple;
+    color: #ffffff;
   }
 
   .lp-editor turbo-frame {

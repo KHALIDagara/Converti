@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   resources :landing_pages do 
     member do 
-      get :copywriting
+      get :business_details
       get :styles 
       get :services
+      get :copywriting
     end
     resources :services, only: [:new, :create, :edit, :update, :destroy] do
       collection do

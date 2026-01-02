@@ -11,30 +11,20 @@
     </div>
   <% end %>
 
-  <div class="form-field">
-    <%= form.label :title, class: "form-label" %>
-    <%= form.text_field :title, class: "form-input" %>
-  </div>
-
   <fieldset class="fieldset-group">
-    <legend>Copywriting</legend>
+    <legend>Hero Section</legend>
     <div class="form-field">
       <%= label_tag 'landing_page[copywriting][hero_section][heading]', "Hero Heading", class: "form-label" %>
       <%= text_field_tag 'landing_page[copywriting][hero_section][heading]', @landing_page.copywriting.dig('hero_section', 'heading'), class: "form-input" %>
     </div>
     <div class="form-field">
       <%= label_tag 'landing_page[copywriting][hero_section][subheading]', "Hero Subheading", class: "form-label" %>
-      <%= text_field_tag 'landing_page[copywriting][hero_section][subheading]', @landing_page.copywriting.dig('hero_section', 'subheading'), class: "form-input" %>
-    </div>
-     <div class="form-field">
-      <%= form.label :phone_number, class: "form-label" %>
-      <%= form.text_field :phone_number, class: "form-input" %> 
+      <%= text_area_tag 'landing_page[copywriting][hero_section][subheading]', @landing_page.copywriting.dig('hero_section', 'subheading'), class: "form-input", rows: 3 %>
     </div>
   </fieldset>
 
-
   <div class="form-actions">
-    <%= form.submit "Update Landing page", class: "submit-button" %>
+    <%= form.submit "Update Copywriting", class: "submit-button" %>
   </div>
 <% end %>
 
@@ -82,27 +72,6 @@
     outline: none;
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-  }
-
-  .form-color-input {
-    display: block;
-    width: 80px;
-    height: 40px;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-
-  .form-file-input {
-    display: block;
-    margin-top: 8px;
-    font-size: 0.875rem;
-  }
-
-  .current-file {
-    margin-top: 8px;
-    font-size: 0.8125rem;
-    color: #6b7280;
   }
 
   .fieldset-group {
