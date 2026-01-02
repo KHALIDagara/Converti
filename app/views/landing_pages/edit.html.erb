@@ -38,30 +38,24 @@
 </div>
 
 <style>
-  /* ============================================
-     Landing Page Editor - Scoped Styles
-     ============================================ */
+  /* Landing Page Editor - Professional Styles */
 
-  /* CSS Custom Properties */
   .lp-editor {
-    --lp-sidebar-width: 450px;
-    --lp-spacing-sm: 10px;
-    --lp-spacing-md: 15px;
-    --lp-spacing-lg: 20px;
-    --lp-border-radius: 6px;
-    --lp-border-color: #e0e0e0;
+    --lp-sidebar-width: 480px;
+    --lp-spacing-sm: 12px;
+    --lp-spacing-md: 20px;
+    --lp-spacing-lg: 32px;
+    --lp-border-radius: 8px;
     --lp-bg-primary: #ffffff;
-    --lp-bg-secondary: #f5f5f5;
-    --lp-bg-card: #f9f9f9;
-    --lp-text-primary: #333333;
-    --lp-text-secondary: #666666;
-    --lp-color-success: #28a745;
-    --lp-color-success-hover: #218838;
-    --lp-color-neutral: #6c757d;
-    --lp-color-neutral-hover: #5a6268;
+    --lp-bg-secondary: #f8f9fa;
+    --lp-bg-card: #ffffff;
+    --lp-text-primary: #1a1a1a;
+    --lp-text-secondary: #6b7280;
+    --lp-border-light: #e5e7eb;
+    --lp-accent: #2563eb;
+    --lp-accent-dark: #1d4ed8;
   }
 
-  /* Layout Reset */
   .lp-editor,
   .lp-editor *,
   .lp-editor *::before,
@@ -69,7 +63,6 @@
     box-sizing: border-box;
   }
 
-  /* Two-Pane Container */
   .lp-editor {
     display: flex;
     flex-direction: row;
@@ -79,9 +72,9 @@
     top: 0;
     left: 0;
     z-index: 100;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
-  /* Left Sidebar */
   .lp-editor__sidebar {
     flex: 0 0 var(--lp-sidebar-width);
     width: var(--lp-sidebar-width);
@@ -89,10 +82,9 @@
     overflow-y: auto;
     padding: var(--lp-spacing-lg);
     background-color: var(--lp-bg-primary);
-    border-right: 1px solid var(--lp-border-color);
+    border-right: 1px solid var(--lp-border-light);
   }
 
-  /* Right Preview Pane */
   .lp-editor__preview {
     flex: 1;
     min-width: 0;
@@ -103,32 +95,31 @@
   }
 
   .lp-editor__preview-header h2 {
-    margin: 0 0 var(--lp-spacing-lg) 0;
-    font-size: 0.875rem;
+    margin: 0 0 var(--lp-spacing-md) 0;
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--lp-text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
   }
 
   .lp-editor__canvas {
     background-color: var(--lp-bg-primary);
     border-radius: var(--lp-border-radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
-  /* Card Component */
   .lp-editor__card {
-    margin-bottom: var(--lp-spacing-lg);
+    margin-bottom: var(--lp-spacing-md);
     padding: var(--lp-spacing-md);
     background-color: var(--lp-bg-card);
-    border: 1px solid var(--lp-border-color);
+    border: 1px solid var(--lp-border-light);
     border-radius: var(--lp-border-radius);
   }
 
   .lp-editor__card-title {
     margin: 0 0 var(--lp-spacing-md) 0;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--lp-text-primary);
   }
@@ -136,60 +127,61 @@
   .lp-editor__card-actions {
     margin-top: var(--lp-spacing-md);
     padding-top: var(--lp-spacing-md);
-    border-top: 1px solid var(--lp-border-color);
+    border-top: 1px solid var(--lp-border-light);
   }
 
-  /* Footer Actions */
   .lp-editor__footer {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: var(--lp-spacing-sm);
     margin-top: var(--lp-spacing-lg);
-    padding-top: var(--lp-spacing-lg);
-    border-top: 2px solid var(--lp-border-color);
+    padding-top: var(--lp-spacing-md);
+    border-top: 1px solid var(--lp-border-light);
   }
 
-  /* Button Component */
   .lp-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: var(--lp-spacing-sm) var(--lp-spacing-lg);
+    padding: 12px 20px;
     font-size: 0.875rem;
     font-weight: 500;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.15s ease;
+    border: none;
   }
 
   .lp-btn--success {
-    background-color: var(--lp-color-success);
+    background-color: var(--lp-accent);
     color: #ffffff;
-  }
-
-  .lp-btn--success:hover {
-    background-color: var(--lp-color-success-hover);
   }
 
   .lp-btn--secondary {
-    background-color: var(--lp-color-neutral);
-    color: #ffffff;
+    background-color: transparent;
+    color: var(--lp-text-secondary);
+    border: 1px solid var(--lp-border-light);
   }
 
-  .lp-btn--secondary:hover {
-    background-color: var(--lp-color-neutral-hover);
-  }
-  .switch-buttons{ 
-    display: flex;  
+  .switch-buttons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: var(--lp-spacing-md);
+    padding: 4px;
+    background-color: var(--lp-bg-secondary);
+    border-radius: 8px;
   }
 
-  /* Turbo Frame Reset */
+  .switch-buttons .lp-btn {
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 0.8125rem;
+  }
+
   .lp-editor turbo-frame {
     display: block;
   }
 
-  /* Responsive Fallback */
   @media (max-width: 900px) {
     .lp-editor {
       flex-direction: column;
@@ -202,7 +194,7 @@
       height: auto;
       max-height: 50vh;
       border-right: none;
-      border-bottom: 1px solid var(--lp-border-color);
+      border-bottom: 1px solid var(--lp-border-light);
     }
 
     .lp-editor__preview {

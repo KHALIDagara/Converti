@@ -16,3 +16,11 @@
     </div>
   <% end %>
 <% end %>
+
+<%= turbo_stream.replace "canvas-preview" do %>
+  <%= turbo_frame_tag "canvas-preview" do %>
+    <div class="lp-editor__canvas">
+      <%= render "landing_pages/canvas", landing_page: @landing_page %>
+    </div>
+  <% end %>
+<% end %>

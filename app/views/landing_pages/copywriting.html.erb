@@ -1,3 +1,145 @@
-<%= turbo_frame_tag "editor-replacable" do %> 
-  <h1> copywriting  </h1> 
-<% end %> 
+<%= turbo_frame_tag "editor-replacable" do %>
+<%= form_with(model: @landing_page, class: "landing-page-form") do |form| %>
+  <% if @landing_page.errors.any? %>
+    <div class="form-errors">
+      <h2><%= pluralize(@landing_page.errors.count, "error") %> prohibited this landing_page from being saved:</h2>
+      <ul>
+        <% @landing_page.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-field">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-input" %>
+  </div>
+
+  <fieldset class="fieldset-group">
+    <legend>Copywriting</legend>
+    <div class="form-field">
+      <%= label_tag 'landing_page[copywriting][hero_section][heading]', "Hero Heading", class: "form-label" %>
+      <%= text_field_tag 'landing_page[copywriting][hero_section][heading]', @landing_page.copywriting.dig('hero_section', 'heading'), class: "form-input" %>
+    </div>
+    <div class="form-field">
+      <%= label_tag 'landing_page[copywriting][hero_section][subheading]', "Hero Subheading", class: "form-label" %>
+      <%= text_field_tag 'landing_page[copywriting][hero_section][subheading]', @landing_page.copywriting.dig('hero_section', 'subheading'), class: "form-input" %>
+    </div>
+     <div class="form-field">
+      <%= form.label :phone_number, class: "form-label" %>
+      <%= form.text_field :phone_number, class: "form-input" %> 
+    </div>
+  </fieldset>
+
+
+  <div class="form-actions">
+    <%= form.submit "Update Landing page", class: "submit-button" %>
+  </div>
+<% end %>
+
+<style>
+  .landing-page-form {
+    width: 100%;
+  }
+
+  .form-errors {
+    background-color: #fef2f2;
+    color: #991b1b;
+    padding: 16px;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    border: 1px solid #fecaca;
+  }
+
+  .form-errors ul {
+    margin: 8px 0 0 20px;
+  }
+
+  .form-field {
+    margin-bottom: 24px;
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+  }
+
+  .form-input {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 0.9375rem;
+    background-color: #ffffff;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  .form-color-input {
+    display: block;
+    width: 80px;
+    height: 40px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .form-file-input {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.875rem;
+  }
+
+  .current-file {
+    margin-top: 8px;
+    font-size: 0.8125rem;
+    color: #6b7280;
+  }
+
+  .fieldset-group {
+    margin-bottom: 32px;
+    padding: 20px;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+  }
+
+  .fieldset-group legend {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: #1a1a1a;
+    padding: 0 8px;
+  }
+
+  .form-actions {
+    position: sticky;
+    bottom: 0;
+    background-color: #ffffff;
+    padding: 20px 0;
+    border-top: 1px solid #e5e7eb;
+    z-index: 10;
+    margin-top: 32px;
+  }
+
+  .submit-button {
+    width: 100%;
+    padding: 12px 24px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+</style>
+<% end %>

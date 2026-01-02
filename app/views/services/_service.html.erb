@@ -1,4 +1,4 @@
-<div id="<%= dom_id service %>" class="service-card">
+<div id="<%= dom_id service %>" class="unit-card">
   <% if service.image.attached? %>
     <div class="service-image">
       <%= image_tag service.image, alt: service.title %>
@@ -23,7 +23,7 @@
   </div>
 
 <style>
-  .service-card {
+  .unit-card {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
