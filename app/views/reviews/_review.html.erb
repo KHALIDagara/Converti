@@ -1,7 +1,7 @@
 <article  id="<%= dom_id review %>" class="review-card">
          <% if review.avatar.attached? %>
            <div class="review-avatar">
-             <%= image_tag review.avatar, style: "max-with: 50px; max-height: 50px;" %>
+             <%= image_tag review.avatar, style: "max-width: 50px; max-height: 50px;" %>
            </div> 
           <% end %> 
           <h3 class="review-name"><%= review.name %> </h3> 

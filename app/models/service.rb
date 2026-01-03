@@ -7,16 +7,8 @@ class Service < ApplicationRecord
   validates :description, presence: true
   
 
-  after_create_commit do 
-    broadcast_append_to landing_page,
-      target: "services-stream-container",
-      partial: "services/service",
-      locals: { review: self }
-  end
-
-  after_destroy_commit do
-    broadcast_remove_to landing_page
-  end
+  # All updates handled by turbo_stream files (create/update/destroy.turbo_stream.erb)
+  # No broadcasts needed - turbo_stream responses update both editor and canvas
 
 
 end

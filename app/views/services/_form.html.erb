@@ -1,5 +1,4 @@
-<%= turbo_frame_tag "edit-services-section" do %>
-  <%= form_with(model: [@landing_page, @service], class: "service-form") do |form| %>
+<%= form_with(model: [@landing_page, @service], class: "service-form") do |form| %>
     <% if @service.errors.any? %>
       <div class="form-errors">
         <h2><%= pluralize(@service.errors.count, "error") %> prohibited this service from being saved:</h2>
@@ -38,12 +37,11 @@
     <div class="form-actions">
       <%= form.submit "Save Service", class: "submit-button" %>
       <%= link_to "Cancel",
-                  edit_landing_page_path(@landing_page),
+                  services_landing_page_path(@landing_page),
                   class: "cancel-button",
-                  data: { turbo_frame: "_top" } %>
+                  data: { turbo_frame: "editor-replacable" } %>
     </div>
   <% end %>
-<% end %>
 
 <style>
   .service-form {

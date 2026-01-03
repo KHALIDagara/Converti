@@ -1,22 +1,22 @@
+<%# Update the editor with edit version %>
 <%= turbo_stream.replace "edit-services-section" do %>
   <%= turbo_frame_tag "edit-services-section" do %>
     <div id="services-list">
-      <%= render @landing_page.services %>
+       <%= render partial: "services/edit_service",
+          collection: @landing_page.services, as: :service %>
     </div>
-
-    <div class="services-actions">
-      <%= link_to "Add New Service",
-                  new_landing_page_service_path(@landing_page),
-                  class: "new-service-button",
-                  data: { turbo_frame: "edit-services-section" } %>
+    <div class="services-edit-actions">
+     <%= link_to "New",
+     new_landing_page_service_path(@landing_page),
+      class: "btn-new-service",
+      data: {turbo_frame: "edit-services-section" } %>
     </div>
   <% end %>
 <% end %>
 
-<%= turbo_stream.replace "canvas-preview" do %>
-  <%= turbo_frame_tag "canvas-preview" do %>
-    <div class="lp-editor__canvas">
-      <%= render "landing_pages/canvas", landing_page: @landing_page %>
-    </div>
-  <% end %>
+<%# Update the canvas with canvas version - don't rely on broadcast %>
+<%= turbo_stream.replace "services-stream-container" do %>
+  <div class="services-grid" id="services-stream-container">
+    <%= render @landing_page.services %>
+  </div>
 <% end %>

@@ -1,18 +1,18 @@
 <%= turbo_frame_tag "editor-replacable" do %> 
   <h1> services </h1> 
   <%= turbo_frame_tag "edit-services-section" do %>
-      <section class="lp-editor__card">
-        <h3 class="lp-editor__card-title">Services</h3>
         <div id="services-list">
-          <%= render @landing_page.services %>
+          <%# this file is responsible for editing the services in the side editor .. for each service 
+          we need to render the _edit_service.html.erb component  %> 
+          <%= render partial: "services/edit_service",
+              collection: @landing_page.services, as: :service %> 
         </div>
-        <div class="lp-editor__card-actions">
-          <%= link_to "Add New Service",
+        <div class="service-edit-actions">
+          <%= link_to "New",
                       new_landing_page_service_path(@landing_page),
-                      class: "lp-btn lp-btn--success",
+                      class: "btn-new-service",
                       data: { turbo_frame: "edit-services-section" } %>
         </div>
-      </section>
     <% end %>
 
 <% end %> 

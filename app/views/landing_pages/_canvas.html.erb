@@ -67,33 +67,33 @@
     gap: 10px;
   }
 
-  .services-grid {
+  /* Scoped to canvas preview only - won't affect editor sidebar */
+  .lp-editor__canvas #<%= dom_id @landing_page %> .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     margin-top: 40px;
   }
 
-  .service-card {
+  .lp-editor__canvas #<%= dom_id @landing_page %> .service-card {
     border: 1px solid #ddd;
     padding: 20px;
     border-radius: 10px;
     transition: transform 0.2s;
   }
 
-  .service-card:hover {
+  .lp-editor__canvas #<%= dom_id @landing_page %> .service-card:hover {
     transform: translateY(-5px);
     border-color: var(--primary-color);
   }
 
-
-  .service-title {
+  .lp-editor__canvas #<%= dom_id @landing_page %> .service-title {
     color: var(--primary-color);
     margin-top: 15px;
     font-size: 1.25rem;
   }
 
-  .service-image img {
+  .lp-editor__canvas #<%= dom_id @landing_page %> .service-image img {
     width: 100%;
     height: 200px;
     object-fit: cover;
@@ -137,24 +137,11 @@
   </section> 
 
   <%# 2. Services Section %>
-  <section class="services-container">
+  <section class="services-section">
     <h2 style="margin-top: 40px;">Our Services</h2>
 
-    <div class="services-grid">
-      <% @landing_page.services.each do |service| %>
-        <article class="service-card">
-          <% if service.image.attached? %>
-            <div class="service-image">
-              <%= image_tag service.image %>
-            </div>
-          <% end %>
-          
-          <h3 class="service-title"><%= service.title %></h3>
-          <p><%= service.description %></p>
-          <button class="whatsapp-button"> Get Our Service </button>
-
-        </article>
-      <% end %>
+    <div class="services-grid" id="services-stream-container">
+      <%= render @landing_page.services %>
     </div>
   </section>
 

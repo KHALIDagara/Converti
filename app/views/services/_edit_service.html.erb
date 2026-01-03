@@ -1,0 +1,90 @@
+<style>
+  /* Scoped to editor sidebar only - won't affect canvas preview */
+  .lp-editor__sidebar #services-list .service-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .lp-editor__sidebar #services-list .service-image {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .lp-editor__sidebar #services-list .service-image img {
+    width: 100%;
+    height: auto;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .lp-editor__sidebar #services-list .service-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    color: #1f2937;
+  }
+
+  .lp-editor__sidebar #services-list .service-card p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.95rem;
+  }
+
+  .lp-editor__sidebar #services-list .btn-edit-service,
+  .lp-editor__sidebar #services-list .btn-delete-service {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+  }
+
+  .lp-editor__sidebar #services-list .btn-edit-service {
+    background-color: #3b82f6;
+    color: white;
+  }
+
+  .lp-editor__sidebar #services-list .btn-delete-service {
+    background-color: #ef4444;
+    color: white;
+  }
+
+  .lp-editor__sidebar #services-list .btn-edit-service:hover {
+    background-color: #2563eb;
+  }
+
+  .lp-editor__sidebar #services-list .btn-delete-service:hover {
+    background-color: #dc2626;
+  }
+</style>
+
+<article id="<%= dom_id service %>" class="service-card">
+  <% if service.image.attached? %>
+    <div class="service-image">
+        <%= image_tag service.image %>
+    </div>
+  <% end %>
+  <h3 class="service-name"><%= service.title %></h3>
+  <p><%= service.description %></p>
+  <div style="display: flex; gap: 8px;">
+    <%= link_to "edit",
+                edit_landing_page_service_path(service.landing_page, service),
+                class: "btn-edit-service",
+                data: { turbo_frame: "edit-services-section" } %>
+    <%= button_to "delete",
+                  landing_page_service_path(service.landing_page, service),
+                  method: :delete,
+                  class: "btn-delete-service",
+                  form: { data: { turbo_confirm: "Are you sure?" } } %>
+  </div>
+</article> 
