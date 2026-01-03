@@ -13,6 +13,14 @@ Rails.application.routes.draw do
         get :test2
       end
     end
+
+
+    resources :channels 
+       collection whatsapp_numbers  do 
+          get index_channel_whatsapp_number_path : 
+          post create_channel_whatsapp_number(@channel)
+       end
+    end 
   end
 
   root "landing_pages#index"
