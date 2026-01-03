@@ -101,7 +101,8 @@ class LandingPagesController < ApplicationController
         { styles: { colors: [:primaryColor, :secondaryColor ,:lightColor , :darkColor], fonts: [:primaryFont, :secondaryFont] } },
         :logo,
         :hero_video,
-        :background_image
+        :background_image,
+        :video_overlay_image
       ])
     end
 

@@ -34,159 +34,267 @@
 <style>
   /* Localized styles for this specific landing page */
   #<%= dom_id @landing_page %> {
+    /* --- 1. THEME COLORS (From Rails) --- */
     --primary-color: <%= @landing_page.styles.dig('colors', 'primaryColor') %>;
     --secondary-color: <%= @landing_page.styles.dig('colors', 'secondaryColor') %>;
     --light-color: <%= @landing_page.styles.dig('colors','lightColor') %>;
     --dark-color: <%= @landing_page.styles.dig('colors','darkColor') %>;
     --primary-font: <%= @landing_page.styles.dig('fonts', 'primaryFont') %>;
     
+    /* --- 2. CONFIGURABLE VARIABLES (Change these to update the whole site) --- */
+    
+    /* Spacing System */
+    --space-xs: 8px;
+    --space-sm: 16px;
+    --space-md: 24px;
+    --space-lg: 40px;
+    --space-xl: 80px;
+    --content-max-width: 1200px;
+
+    /* Border Radius System */
+    --radius-sm: 8px;   /* For small buttons, images */
+    --radius-md: 16px;  /* For cards, large buttons */
+    --radius-lg: 24px;  /* For sections or large containers */
+    --radius-round: 50%;
+
+    /* Transparency & Readability */
+    --bg-overlay: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)); /* Darker for better text contrast */
+    --glass-bg: rgba(255, 255, 255, 0.15); /* For review cards */
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Pop text off background */
+
+    /* --- 3. BASE STYLES --- */
     background-image:
-    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), /* TODO: var(--overlay-color) */
-    url('<%= url_for(@landing_page.background_image) if @landing_page.background_image.attached? %>');
+      var(--bg-overlay),
+      url('<%= url_for(@landing_page.background_image) if @landing_page.background_image.attached? %>');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Parallax effect */
+    
     color: var(--secondary-color);
     font-family: var(--primary-font);
-    line-height: 1.6; /* TODO: var(--line-height) */
+    line-height: 1.6;
+    
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    max-width: 1200px; /* TODO: var(--container-max-width) */
+    
+    max-width: var(--content-max-width);
     margin: 0 auto;
+    padding-bottom: var(--space-xl);
   }
 
-  /* Container: Sets the stage */
-.hero-video-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 800px; /* Optional: limits max width */
-  aspect-ratio: 16 / 9; /* CRITICAL: Enforces standard video shape for both image and video */
-  border-radius: 8px; /* Optional: matches your theme */
-  overflow: hidden;   /* Keeps corners rounded */
-  cursor: pointer;    /* Shows it's clickable */
-  background-color: #000; /* Fallback color */
-}
-
-/* Video: Forces it to fill the container perfectly */
-.hero-video-player {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* CRITICAL: Ensures video/poster fills space without stretching */
-  display: block;
-}
-
-/* Overlay: Centers the SVG */
-.play-button-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.2); /* Optional: slight dark tint to make white text pop */
-  transition: opacity 0.3s ease;
-  z-index: 10;
-}
-
-/* Hover Effect: Makes the play button grow slightly */
-.hero-video-wrapper:hover .play-button-overlay svg {
-  transform: scale(1.1);
-  transition: transform 0.2s;
-}
-
+  /* --- HERO SECTION --- */
   .hero-section {
-    padding: 60px 20px; /* TODO: var(--section-padding) */
-    text-align: center;
-    border-radius: 8px; /* TODO: var(--section-radius) */
+    padding: var(--space-xl) var(--space-md);
+    width: 100%;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 20px; /* TODO: var(--element-gap) */
+    gap: var(--space-md);
     align-items: center;
   }
 
   .hero-section h1 {
-    margin: 0 0 10px 0;
-    font-size: 2.5rem; /* TODO: var(--hero-heading-size) */
+    margin: 0 0 var(--space-sm) 0;
+    font-size: 3rem; 
+    font-weight: 700;
+    text-shadow: var(--text-shadow); /* Ensures readability on image */
+  }
+
+  .hero-section p {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-md);
+    text-shadow: var(--text-shadow);
+    max-width: 800px;
+  }
+
+  /* --- VIDEO PLAYER (Refined) --- */
+  .hero-video-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md); 
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #000;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4); /* Lift video off page */
+    margin-bottom: var(--space-lg);
+  }
+
+  .hero-video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .play-button-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+    z-index: 10;
+  }
+  
+  .hero-video-wrapper:hover .play-button-overlay {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .hero-video-wrapper:hover .play-button-overlay svg {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+  }
+
+  /* --- BUTTONS --- */
+  button {
+    transition: all 0.2s ease;
+  }
+  
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   }
 
   .whatsapp-button {
-    background-color: #25D366; /* TODO: var(--accent-color) */
-    color: white; /* TODO: var(--white-color) */
+    background-color: #25D366; 
+    color: white;
     font-family: var(--primary-font);
-    font-size: 1.2rem; /* TODO: var(--button-font-size) */
-    padding: 16px 32px; /* TODO: var(--button-padding) */
+    font-size: 1.2rem;
+    padding: var(--space-sm) var(--space-lg);
     border: none;
-    border-radius: 8px; /* TODO: var(--button-radius) */
+    border-radius: var(--radius-md); /* Smooth pill shape */
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px; /* TODO: var(--button-gap) */
+    gap: var(--space-xs);
+    font-weight: 600;
   }
 
   .services-button {
     background-color: var(--light-color);
     color: var(--dark-color);
     font-family: var(--primary-font);
-    font-size: 1.2rem; /* TODO: var(--button-font-size) */
-    padding: 16px 32px; /* TODO: var(--button-padding) */
+    font-size: 1.2rem;
+    padding: var(--space-sm) var(--space-lg);
     border: none;
-    border-radius: 8px; /* TODO: var(--button-radius) */
+    border-radius: var(--radius-md);
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px; /* TODO: var(--button-gap) */
+    gap: var(--space-xs);
+    font-weight: 600;
   }
 
-  /* Landing page services grid */
+  /* --- REVIEWS SECTION (Glassmorphism) --- */
+  .reviews-section {
+    width: 100%;
+    padding: var(--space-lg) var(--space-md);
+    box-sizing: border-box;
+  }
+
+  /* Note: Ensure your review partials use a class like .review-card */
+  #reviews-stream-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-md);
+  }
+  
+  /* Target the cards inside the review container */
+  #reviews-stream-container > div, .review-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px); /* The Blur Effect */
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    color: var(--secondary-color);
+    max-width: 400px;
+    text-align: left;
+  }
+
+  /* --- SERVICES GRID --- */
+  .services-section {
+    width: 100%;
+    padding: 0 var(--space-md);
+    box-sizing: border-box;
+  }
+
+  .services-section h2 {
+    font-size: 2.5rem;
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-lg);
+    text-shadow: var(--text-shadow);
+  }
+
   #<%= dom_id @landing_page %> .lp-services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* TODO: var(--grid-min-column-width) */
-    gap: 20px; /* TODO: var(--grid-gap) */
-    margin-top: 40px; /* TODO: var(--section-margin-top) */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
   }
 
-  /* Landing page service card */
   #<%= dom_id @landing_page %> .lp-service-card {
-    border: 1px solid #ddd; /* TODO: var(--border-color) */
-    padding: 20px; /* TODO: var(--card-padding) */
-    border-radius: 10px; /* TODO: var(--card-radius) */
-    transition: transform 0.2s;
+    background-color: rgba(255, 255, 255, 0.3); /* High opacity for readability */
+    border: 1px solid transparent;
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    transition: transform 0.3s, border-color 0.3s;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    color: var(--dark-color); /* Dark text on light card */
   }
 
   #<%= dom_id @landing_page %> .lp-service-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
     border-color: var(--primary-color);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   }
 
   #<%= dom_id @landing_page %> .lp-service-title {
     color: var(--primary-color);
-    margin-top: 15px; /* TODO: var(--title-margin-top) */
-    font-size: 1.25rem; /* TODO: var(--service-title-size) */
+    margin-top: var(--space-sm);
+    font-size: 1.5rem;
+    font-weight: 700;
   }
 
   #<%= dom_id @landing_page %> .lp-service-image img {
     width: 100%;
-    height: 200px; /* TODO: var(--service-image-height) */
+    height: 220px;
     object-fit: cover;
-    border-radius: 5px; /* TODO: var(--image-radius) */
+    border-radius: var(--radius-sm);
   }
 
   #<%= dom_id @landing_page %> .lp-service-button {
-    background-color: var(--light-color);
-    color: var(--dark-color);
+    background-color: var(--dark-color);
+    color: var(--light-color);
     font-family: var(--primary-font);
-    font-size: 1rem; /* TODO: var(--service-button-font-size) */
-    padding: 12px 24px; /* TODO: var(--service-button-padding) */
+    font-size: 1rem;
+    padding: 12px 24px;
     border: none;
-    border-radius: 8px; /* TODO: var(--button-radius) */
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    margin-top: 16px; /* TODO: var(--button-margin-top) */
+    margin-top: var(--space-md);
+    width: 100%;
+  }
+
+  /* --- MAP --- */
+  iframe {
+    border-radius: var(--radius-lg);
+    margin-top: var(--space-xl);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   }
 </style>
 <%# listening to updates %> 
@@ -207,7 +315,7 @@
     <%= video_tag rails_blob_path(@landing_page.hero_video), 
         controls: false, 
         preload: 'auto', 
-        poster: (@landing_page.background_image.attached? ? url_for(@landing_page.background_image) : nil),
+        poster: (@landing_page.video_overlay_image.attached? ? url_for(@landing_page.video_overlay_image) : nil),
         class: "hero-video-player" 
     %>
 
