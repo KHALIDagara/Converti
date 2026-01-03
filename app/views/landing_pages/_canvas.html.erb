@@ -40,7 +40,6 @@
 
 
   .whatsapp-button {
-    background-color: #25D366;
     color: white;
     font-family: var(--primary-font);
     font-size: 1.2rem;
@@ -67,37 +66,54 @@
     gap: 10px;
   }
 
-  /* Scoped to canvas preview only - won't affect editor sidebar */
-  .lp-editor__canvas #<%= dom_id @landing_page %> .services-grid {
+  /* Landing page services grid */
+  #<%= dom_id @landing_page %> .lp-services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     margin-top: 40px;
   }
 
-  .lp-editor__canvas #<%= dom_id @landing_page %> .service-card {
+  /* Landing page service card */
+  #<%= dom_id @landing_page %> .lp-service-card {
     border: 1px solid #ddd;
     padding: 20px;
     border-radius: 10px;
     transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
-  .lp-editor__canvas #<%= dom_id @landing_page %> .service-card:hover {
+  #<%= dom_id @landing_page %> .lp-service-card:hover {
     transform: translateY(-5px);
     border-color: var(--primary-color);
   }
 
-  .lp-editor__canvas #<%= dom_id @landing_page %> .service-title {
+  #<%= dom_id @landing_page %> .lp-service-title {
     color: var(--primary-color);
     margin-top: 15px;
     font-size: 1.25rem;
   }
 
-  .lp-editor__canvas #<%= dom_id @landing_page %> .service-image img {
+  #<%= dom_id @landing_page %> .lp-service-image img {
     width: 100%;
     height: 200px;
     object-fit: cover;
     border-radius: 5px;
+  }
+
+  #<%= dom_id @landing_page %> .lp-service-button {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    font-family: var(--primary-font);
+    font-size: 1rem;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 16px;
   }
 </style>
 <%# listening to updates %> 
@@ -137,10 +153,10 @@
   </section> 
 
   <%# 2. Services Section %>
-  <section class="services-section">
+  <section class="lp-services-section">
     <h2 style="margin-top: 40px;">Our Services</h2>
 
-    <div class="services-grid" id="services-stream-container">
+    <div class="lp-services-grid" id="services-stream-container">
       <%= render @landing_page.services %>
     </div>
   </section>

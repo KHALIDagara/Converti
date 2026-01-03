@@ -1,11 +1,11 @@
-<article id="<%= dom_id service %>" class="service-card">
+<article id="<%= dom_id service %>" class="lp-service-card">
   <% if service.image.attached? %>
-    <div class="service-image">
+    <div class="lp-service-image">
       <%= image_tag service.image %>
     </div>
   <% end %>
 
-  <h3 class="service-title"><%= service.title %></h3>
+  <h3 class="lp-service-title"><%= service.title %></h3>
   <p><%= service.description %></p>
-  <button class="whatsapp-button">Get Our Service</button>
-</article> 
+  <button class="lp-service-button">Get Our Service</button>
+</article>
