@@ -7,6 +7,7 @@ class LandingPage < ApplicationRecord
 
 
   has_one_attached :hero_video
+  has_one_attached :video_overlay_image
   has_one_attached :logo do |attachable| 
     attachable.variant :thumb, resize_to_limit: [100,100]
   end

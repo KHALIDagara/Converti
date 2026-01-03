@@ -1,70 +1,86 @@
 <style>
-  /* Scoped to editor sidebar only - won't affect canvas preview */
+  /* Modern minimalist editor styles - scoped to sidebar only */
   .lp-editor__sidebar #services-list .service-card {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    background: #ffffff;
+    border: 1px solid #f3f4f6;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.2s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .lp-editor__sidebar #services-list .service-card:hover {
+    border-color: #e5e7eb;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
   }
 
   .lp-editor__sidebar #services-list .service-image {
     width: 100%;
-    max-width: 200px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    border-radius: 8px;
   }
 
   .lp-editor__sidebar #services-list .service-image img {
     width: 100%;
-    height: auto;
-    max-height: 150px;
+    height: 180px;
     object-fit: cover;
-    border-radius: 4px;
+    display: block;
   }
 
   .lp-editor__sidebar #services-list .service-name {
-    font-size: 1.1rem;
+    font-size: 1.125rem;
     font-weight: 600;
-    margin: 0;
-    color: #1f2937;
+    margin: 0 0 8px 0;
+    color: #111827;
+    line-height: 1.4;
   }
 
   .lp-editor__sidebar #services-list .service-card p {
-    margin: 0;
+    margin: 0 0 16px 0;
     color: #6b7280;
-    font-size: 0.95rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .lp-editor__sidebar #services-list .service-actions {
+    display: flex;
+    gap: 8px;
   }
 
   .lp-editor__sidebar #services-list .btn-edit-service,
   .lp-editor__sidebar #services-list .btn-delete-service {
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-size: 0.9rem;
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
     cursor: pointer;
     border: none;
     text-decoration: none;
-    display: inline-block;
-    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
   }
 
   .lp-editor__sidebar #services-list .btn-edit-service {
-    background-color: #3b82f6;
-    color: white;
+    background-color: #f3f4f6;
+    color: #374151;
   }
 
   .lp-editor__sidebar #services-list .btn-delete-service {
-    background-color: #ef4444;
-    color: white;
+    background-color: #fef2f2;
+    color: #dc2626;
   }
 
   .lp-editor__sidebar #services-list .btn-edit-service:hover {
-    background-color: #2563eb;
+    background-color: #e5e7eb;
   }
 
   .lp-editor__sidebar #services-list .btn-delete-service:hover {
-    background-color: #dc2626;
+    background-color: #fee2e2;
   }
 </style>
 
@@ -76,12 +92,12 @@
   <% end %>
   <h3 class="service-name"><%= service.title %></h3>
   <p><%= service.description %></p>
-  <div style="display: flex; gap: 8px;">
-    <%= link_to "edit",
+  <div class="service-actions">
+    <%= link_to "Edit",
                 edit_landing_page_service_path(service.landing_page, service),
                 class: "btn-edit-service",
                 data: { turbo_frame: "edit-services-section" } %>
-    <%= button_to "delete",
+    <%= button_to "Delete",
                   landing_page_service_path(service.landing_page, service),
                   method: :delete,
                   class: "btn-delete-service",

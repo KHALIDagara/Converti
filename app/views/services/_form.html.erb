@@ -1,150 +1,237 @@
+<div class="service-form-header">
+  <h2 class="service-form-title"><%= @service.new_record? ? "New Service" : "Edit Service" %></h2>
+</div>
+
 <%= form_with(model: [@landing_page, @service], class: "service-form") do |form| %>
-    <% if @service.errors.any? %>
-      <div class="form-errors">
-        <h2><%= pluralize(@service.errors.count, "error") %> prohibited this service from being saved:</h2>
-        <ul>
-          <% @service.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <%= form.hidden_field :landing_page_id, value: @landing_page.id %>
-
-    <div class="form-field">
-      <%= form.label :title, class: "form-label" %>
-      <%= form.text_field :title, class: "form-input" %>
-    </div>
-
-   
-    <div class="form-field">
-      <%= form.label :description, class: "form-label" %>
-      <%= form.text_area :description, class: "form-textarea" %>
-    </div>
-
-    <div class="form-field">
-      <%= form.label :image, "Service Image", class: "form-label" %>
-      <%= form.file_field :image, accept: "image/*", class: "form-file-input" %>
-      <% if @service.image.attached? %>
-        <div class="current-image">
-          <%= image_tag @service.image %>
-          <p>Current image</p>
-        </div>
-      <% end %>
-    </div>
-
-    <div class="form-actions">
-      <%= form.submit "Save Service", class: "submit-button" %>
-      <%= link_to "Cancel",
-                  services_landing_page_path(@landing_page),
-                  class: "cancel-button",
-                  data: { turbo_frame: "editor-replacable" } %>
+  <% if @service.errors.any? %>
+    <div class="form-errors">
+      <h3><%= pluralize(@service.errors.count, "error") %> prohibited this service from being saved:</h3>
+      <ul>
+        <% @service.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
     </div>
   <% end %>
 
+  <%= form.hidden_field :landing_page_id, value: @landing_page.id %>
+
+  <div class="form-field">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-input", placeholder: "Enter service title" %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, class: "form-textarea", rows: 4, placeholder: "Describe your service" %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label :image, "Service Image", class: "form-label" %>
+    <div class="file-upload-wrapper">
+      <%= form.file_field :image, accept: "image/*", class: "file-input" %>
+      <div class="file-upload-display">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+        </svg>
+        <span class="file-upload-text">Choose image</span>
+      </div>
+    </div>
+    <% if @service.image.attached? %>
+      <div class="current-image">
+        <%= image_tag @service.image, class: "current-image-preview" %>
+        <p class="current-image-label">Current image</p>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit "Save Service", class: "submit-button" %>
+    <%= link_to "Cancel",
+                services_landing_page_path(@landing_page),
+                class: "cancel-button",
+                data: { turbo_frame: "editor-replacable" } %>
+  </div>
+<% end %>
+
 <style>
+  .service-form-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .service-form-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+  }
+
   .service-form {
-    max-width: 600px;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
+    width: 100%;
   }
 
   .form-errors {
-    background-color: #fee;
-    color: #c00;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 4px;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    padding: 16px;
+    margin-bottom: 24px;
+    border-radius: 8px;
+  }
+
+  .form-errors h3 {
+    color: #991b1b;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin: 0 0 8px 0;
   }
 
   .form-errors ul {
-    margin: 10px 0 0 20px;
+    margin: 0;
+    padding-left: 20px;
+    color: #dc2626;
+    font-size: 0.8125rem;
   }
 
   .form-field {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
   }
 
   .form-label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-size: 0.875rem;
     font-weight: 500;
+    color: #374151;
   }
 
   .form-input,
   .form-textarea {
     display: block;
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-
-  .form-textarea {
-    min-height: 80px;
-    resize: vertical;
+    padding: 10px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.9375rem;
+    background-color: #ffffff;
+    transition: all 0.2s;
   }
 
   .form-input:focus,
   .form-textarea:focus {
     outline: none;
-    border-color: #0066cc;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
   }
 
-  .form-file-input {
-    display: block;
-    margin-top: 5px;
+  .form-textarea {
+    resize: vertical;
+    font-family: inherit;
+    line-height: 1.6;
+  }
+
+  .file-upload-wrapper {
+    position: relative;
+    margin-top: 8px;
+  }
+
+  .file-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .file-upload-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 24px;
+    background-color: #ffffff;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #6b7280;
+  }
+
+  .file-upload-display:hover {
+    border-color: #2563eb;
+    background-color: #f9fafb;
+    color: #2563eb;
+  }
+
+  .file-upload-text {
+    font-size: 0.875rem;
+    font-weight: 500;
   }
 
   .current-image {
-    margin-top: 10px;
+    margin-top: 16px;
+    padding: 12px;
+    background-color: #f9fafb;
+    border-radius: 8px;
   }
 
-  .current-image img {
-    width: 150px;
-    height: 150px;
+  .current-image-preview {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: 8px;
+    display: block;
   }
 
-  .current-image p {
-    margin-top: 5px;
-    font-size: 0.9em;
-    color: #666;
+  .current-image-label {
+    margin-top: 8px;
+    font-size: 0.8125rem;
+    color: #059669;
+    font-weight: 500;
   }
 
   .form-actions {
-    margin-top: 20px;
+    margin-top: 32px;
     display: flex;
-    gap: 10px;
+    gap: 12px;
   }
 
   .submit-button {
-    padding: 10px 20px;
-    background-color: #0066cc;
+    flex: 1;
+    padding: 12px 24px;
+    background-color: #2563eb;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: all 0.2s;
   }
 
   .submit-button:hover {
-    background-color: #0052a3;
+    background-color: #1d4ed8;
   }
 
   .cancel-button {
-    padding: 10px 20px;
-    background-color: #6c757d;
-    color: white;
+    flex: 1;
+    padding: 12px 24px;
+    background-color: #f3f4f6;
+    color: #374151;
     text-decoration: none;
-    border-radius: 4px;
-    display: inline-block;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: all 0.2s;
   }
 
   .cancel-button:hover {
-    background-color: #5a6268;
+    background-color: #e5e7eb;
   }
 </style>

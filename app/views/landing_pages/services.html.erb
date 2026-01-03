@@ -1,18 +1,75 @@
-<%= turbo_frame_tag "editor-replacable" do %> 
-  <h1> services </h1> 
-  <%= turbo_frame_tag "edit-services-section" do %>
-        <div id="services-list">
-          <%# this file is responsible for editing the services in the side editor .. for each service 
-          we need to render the _edit_service.html.erb component  %> 
-          <%= render partial: "services/edit_service",
-              collection: @landing_page.services, as: :service %> 
-        </div>
-        <div class="service-edit-actions">
-          <%= link_to "New",
-                      new_landing_page_service_path(@landing_page),
-                      class: "btn-new-service",
-                      data: { turbo_frame: "edit-services-section" } %>
-        </div>
-    <% end %>
+<%= turbo_frame_tag "editor-replacable" do %>
+  <div class="services-editor-container">
+    <div class="services-header">
+      <h1 class="services-title">Services</h1>
+    </div>
 
+    <%= turbo_frame_tag "edit-services-section" do %>
+      <div id="services-list">
+        <%= render partial: "services/edit_service",
+                   collection: @landing_page.services, as: :service %>
+      </div>
+
+      <div class="services-actions">
+        <%= link_to new_landing_page_service_path(@landing_page),
+                    class: "btn-new-service",
+                    data: { turbo_frame: "edit-services-section" } do %>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          New Service
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <style>
+    .services-editor-container {
+      padding: 0;
+    }
+
+    .services-header {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .services-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #111827;
+      margin: 0;
+      text-transform: capitalize;
+    }
+
+    .services-actions {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #f3f4f6;
+    }
+
+    .btn-new-service {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background-color: #2563eb;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-new-service:hover {
+      background-color: #1d4ed8;
+    }
+
+    .btn-new-service svg {
+      stroke-width: 2.5;
+    }
+  </style>
 <% end %> 
