@@ -23,8 +23,29 @@
     </div>
   </fieldset>
 
+
+  <fieldset class="fieldset-group">
+    <legend>Reviews Section</legend>
+        <div class="form-field">
+      <%= label_tag 'landing_page[copywriting][reviews_section][heading]', "Reviews heading", class: "form-label" %>
+      <%= text_field_tag 'landing_page[copywriting][reviews_section][heading]', @landing_page.copywriting.dig('reviews_section', 'heading'), class: "form-input" %>
+    </div>
+    <div class="form-field">
+      <%= label_tag 'landing_page[copywriting][reviews_section][subheading]', "Reviews  Subheading", class: "form-label" %>
+      <%= text_area_tag 'landing_page[copywriting][reviews_section][subheading]', @landing_page.copywriting.dig('reviews_section', 'subheading'), class: "form-input", rows: 3 %>
+    </div>
+  </fieldset>
+
+
   <div class="form-actions">
-    <%= form.submit "Update Copywriting", class: "submit-button" %>
+    <div class="form-actions-group">
+      <%= form.submit "Update Copywriting", class: "submit-button" %>
+      <%= link_to @landing_page, target: "_blank", class: "view-button", title: "View Landing Page" do %>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+        </svg>
+      <% end %>
+    </div>
   </div>
 <% end %>
 
@@ -99,8 +120,14 @@
     margin-top: 32px;
   }
 
+  .form-actions-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
   .submit-button {
-    width: 100%;
+    flex: 1;
     padding: 12px 24px;
     background-color: #2563eb;
     color: white;
@@ -109,6 +136,17 @@
     cursor: pointer;
     font-size: 0.9375rem;
     font-weight: 500;
+  }
+
+  .view-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background-color: #f3f4f6;
+    color: #374151;
+    border-radius: 6px;
+    text-decoration: none;
   }
 </style>
 <% end %>

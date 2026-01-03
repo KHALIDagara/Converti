@@ -3,6 +3,7 @@ class LandingPage < ApplicationRecord
   after_initialize :set_defaults, if: :new_record?
 
   has_many :services
+  has_many :reviews
 
 
   has_one_attached :hero_video

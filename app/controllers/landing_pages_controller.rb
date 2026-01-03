@@ -1,5 +1,5 @@
 class LandingPagesController < ApplicationController
-  before_action :set_landing_page, only: %i[ show edit update destroy styles business_details copywriting services ]
+  before_action :set_landing_page, only: %i[ show edit update destroy styles business_details copywriting services update_reviews ]
 
   # GET /landing_pages or /landing_pages.json
   def index
@@ -48,6 +48,19 @@ class LandingPagesController < ApplicationController
     end
   end
 
+
+  def update_reviews 
+    reviews_url_param =  params.require(:landing_page).permit(:google_maps_url)
+    if @landing_page.update!( google_maps_url: reviews_url_param[:google_maps_url])
+      puts "the update_reviews action is called with #{reviews_url_param[:google_maps_url]} "
+      puts " the landing page is #{@landing_page.business_details} "
+      FetchReviewsJob.perform_later(@landing_page)
+    else 
+      puts "did not update the google maps for the landign apge "
+    end
+  end
+    
+
   # DELETE /landing_pages/1 or /landing_pages/1.json
   def destroy
     @landing_page.destroy!
@@ -58,7 +71,6 @@ class LandingPagesController < ApplicationController
     end
   end
 
-  # STYLSE 
   def styles
   end
 

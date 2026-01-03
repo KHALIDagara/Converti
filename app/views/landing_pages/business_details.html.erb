@@ -1,49 +1,63 @@
 <%= turbo_frame_tag "editor-replacable" do %>
 <%= form_with(model: @landing_page, class: "landing-page-form") do |form| %>
-  <% if @landing_page.errors.any? %>
-    <div class="form-errors">
-      <h2><%= pluralize(@landing_page.errors.count, "error") %> prohibited this landing_page from being saved:</h2>
-      <ul>
-        <% @landing_page.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<% if @landing_page.errors.any? %>
+  <div class="form-errors">
+    <h2><%= pluralize(@landing_page.errors.count, "error") %> prohibited this landing_page from being saved:</h2>
+    <ul>
+      <% @landing_page.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
+<div class="form-field">
+  <%= form.label :title, class: "form-label" %>
+  <%= form.text_field :title, class: "form-input" %>
+</div>
+
+<fieldset class="fieldset-group">
+  <legend>Business Info</legend>
   <div class="form-field">
-    <%= form.label :title, class: "form-label" %>
-    <%= form.text_field :title, class: "form-input" %>
+    <%= label_tag 'landing_page[business_details][business_name]', "Business Name", class: "form-label" %>
+    <%# Added &. (safe navigation) and removed the extra nesting key %>
+    <%= text_field_tag 'landing_page[business_details][business_name]', @landing_page.business_details&.dig('business_name'), class: "form-input" %>
+  </div>
+  
+  <div class="form-field">
+    <%= label_tag 'landing_page[business_details][business_description]', "Business Description", class: "form-label" %>
+    <%= text_field_tag 'landing_page[business_details][business_description]', @landing_page.business_details&.dig('business_description'), class: "form-input" %>
+  </div>
+    <div class="form-field">
+    <%= form.label :phone_number, class: "form-label" %>
+    <%= form.text_field :phone_number, class: "form-input" %>
+  </div>
+  <div class="form-field">
+    <%= label_tag 'landing_page[business_details][target_audience]', "Target Audience", class: "form-label" %>
+    <%= text_field_tag 'landing_page[business_details][target_audience]', @landing_page.business_details&.dig('target_audience'), class: "form-input" %>
+  </div>
+    <div class="form-field">
+    <%= label_tag 'landing_page[business_details][convertion_goal]', "Converion Goal", class: "form-label" %>
+    <%= text_field_tag 'landing_page[business_details][convertion_goal]', @landing_page.business_details&.dig('convertion_goal'), class: "form-input" %>
+  </div>
+    <div class="form-field">
+    <%= label_tag 'landing_page[business_details][call_to_action]', "Call To Action", class: "form-label" %>
+    <%= text_field_tag 'landing_page[business_details][call_to_action]', @landing_page.business_details&.dig('call_to_action'), class: "form-input" %>
+  </div>
+  <div class="form-field">
+      <%= form.label :google_maps_url, "Google Maps URL", class: "form-label" %>
+      <div style="display: flex; gap: 10px;">
+      <%= form.text_field :google_maps_url, class: "form-input", style: "flex-grow: 1;" %>
+      <%= form.button "Update Reviews Only", 
+          formaction: update_reviews_landing_page_path(@landing_page),
+          formmethod: "patch",
+          class: "secondary-button",
+          style: "white-space: nowrap;" %>
+    </div>
+    <p class="help-text">Paste your map link here to fetch fresh reviews.</p>
   </div>
 
-  <fieldset class="fieldset-group">
-    <legend>Business Info</legend>
-    <div class="form-field">
-      <%= label_tag 'landing_page[business_details][business_name]', "Business Name", class: "form-label" %>
-      <%# Added &. (safe navigation) and removed the extra nesting key %>
-      <%= text_field_tag 'landing_page[business_details][business_name]', @landing_page.business_details&.dig('business_name'), class: "form-input" %>
-    </div>
-    
-    <div class="form-field">
-      <%= label_tag 'landing_page[business_details][business_description]', "Business Description", class: "form-label" %>
-      <%= text_field_tag 'landing_page[business_details][business_description]', @landing_page.business_details&.dig('business_description'), class: "form-input" %>
-    </div>
-     <div class="form-field">
-      <%= form.label :phone_number, class: "form-label" %>
-      <%= form.text_field :phone_number, class: "form-input" %>
-    </div>
-    <div class="form-field">
-      <%= label_tag 'landing_page[business_details][target_audience]', "Target Audience", class: "form-label" %>
-      <%= text_field_tag 'landing_page[business_details][target_audience]', @landing_page.business_details&.dig('target_audience'), class: "form-input" %>
-    </div>
-     <div class="form-field">
-      <%= label_tag 'landing_page[business_details][convertion_goal]', "Converion Goal", class: "form-label" %>
-      <%= text_field_tag 'landing_page[business_details][convertion_goal]', @landing_page.business_details&.dig('convertion_goal'), class: "form-input" %>
-    </div>
-      <div class="form-field">
-      <%= label_tag 'landing_page[business_details][call_to_action]', "Call To Action", class: "form-label" %>
-      <%= text_field_tag 'landing_page[business_details][call_to_action]', @landing_page.business_details&.dig('call_to_action'), class: "form-input" %>
-    </div>
+
    
     <div class="form-field" data-controller="selling-points">
       <label class="form-label">Selling Points</label>

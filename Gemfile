@@ -52,6 +52,12 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Load environment variables from .env file
+  gem "dotenv-rails"
+
+  # RSpec for testing
+  gem "rspec-rails"
 end
 
 group :development do
@@ -64,3 +70,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "open-uri", "~> 0.5.0"

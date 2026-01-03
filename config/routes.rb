@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :landing_pages do 
     member do 
+      patch :update_reviews
       get :business_details
       get :styles 
       get :services

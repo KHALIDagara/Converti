@@ -128,6 +128,22 @@
     </button>
   </header>
 
+  <%# 1.2 reviews section %> 
+  <section class="reviews-section">
+     <% @landing_page.reviews.each do |review| %>
+       <article class="review-card">
+         <% if review.avatar.attached? %>
+           <div class="review-avatar">
+             <%= image_tag review.avatar, style: "max-with: 50px; max-height: 50px;" %>
+           </div> 
+          <% end %> 
+
+          <h3 class="review-name"><%= review.name %> </h3> 
+          <p> <%= review.content %> </p> 
+      </article> 
+    <% end %> 
+  </section> 
+
   <%# 2. Services Section %>
   <section class="services-container">
     <h2 style="margin-top: 40px;">Our Services</h2>
