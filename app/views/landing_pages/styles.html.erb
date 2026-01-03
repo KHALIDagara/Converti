@@ -53,29 +53,57 @@
   </fieldset>
 
 
-  <div class="form-field">
-    <%= form.label :logo, class: "form-label" %>
-    <%= form.file_field :logo, class: "form-file-input" %>
-    <% if @landing_page.logo.attached? %>
-      <p class="current-file">Current: <%= @landing_page.logo.filename %></p>
-    <% end %>
-  </div>
+  <fieldset class="fieldset-group">
+    <legend>Media Assets</legend>
 
-  <div class="form-field">
-    <%= form.label :hero_video, class: "form-label" %>
-    <%= form.file_field :hero_video, class: "form-file-input" %>
-    <% if @landing_page.hero_video.attached? %>
-      <p class="current-file">Current: <%= @landing_page.hero_video.filename %></p>
-    <% end %>
-  </div>
+    <div class="file-upload-field">
+      <%= form.label :logo, class: "form-label" %>
+      <div class="file-upload-wrapper">
+        <%= form.file_field :logo, class: "file-input", accept: "image/*" %>
+        <div class="file-upload-display">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+          </svg>
+          <span class="file-upload-text">Choose file</span>
+        </div>
+      </div>
+      <% if @landing_page.logo.attached? %>
+        <p class="current-file">Current: <%= @landing_page.logo.filename %></p>
+      <% end %>
+    </div>
 
-  <div class="form-field">
-    <%= form.label :background_image, class: "form-label" %>
-    <%= form.file_field :background_image, class: "form-file-input" %>
-    <% if @landing_page.background_image.attached? %>
-      <p class="current-file">Current: <%= @landing_page.background_image.filename %></p>
-    <% end %>
-  </div>
+    <div class="file-upload-field">
+      <%= form.label :hero_video, "Hero video", class: "form-label" %>
+      <div class="file-upload-wrapper">
+        <%= form.file_field :hero_video, class: "file-input", accept: "video/*" %>
+        <div class="file-upload-display">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+          </svg>
+          <span class="file-upload-text">Choose file</span>
+        </div>
+      </div>
+      <% if @landing_page.hero_video.attached? %>
+        <p class="current-file">Current: <%= @landing_page.hero_video.filename %></p>
+      <% end %>
+    </div>
+
+    <div class="file-upload-field">
+      <%= form.label :background_image, "Background image", class: "form-label" %>
+      <div class="file-upload-wrapper">
+        <%= form.file_field :background_image, class: "file-input", accept: "image/*" %>
+        <div class="file-upload-display">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+          </svg>
+          <span class="file-upload-text">Choose file</span>
+        </div>
+      </div>
+      <% if @landing_page.background_image.attached? %>
+        <p class="current-file">Current: <%= @landing_page.background_image.filename %></p>
+      <% end %>
+    </div>
+  </fieldset>
 
   <div class="form-actions">
     <div class="form-actions-group">
@@ -164,16 +192,54 @@
     text-align: center;
   }
 
-  .form-file-input {
-    display: block;
+  .file-upload-field {
+    margin-bottom: 20px;
+  }
+
+  .file-upload-wrapper {
+    position: relative;
     margin-top: 8px;
+  }
+
+  .file-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .file-upload-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 24px;
+    background-color: #ffffff;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #6b7280;
+  }
+
+  .file-upload-display:hover {
+    border-color: #2563eb;
+    background-color: #f9fafb;
+    color: #2563eb;
+  }
+
+  .file-upload-text {
     font-size: 0.875rem;
+    font-weight: 500;
   }
 
   .current-file {
     margin-top: 8px;
     font-size: 0.8125rem;
-    color: #6b7280;
+    color: #059669;
+    font-weight: 500;
   }
 
   .fieldset-group {
