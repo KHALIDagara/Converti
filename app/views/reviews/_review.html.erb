@@ -1,15 +1,11 @@
-<div id="<%= dom_id review %>" class="review-card">
-  <% if review.avatar.attached? %>
-    <div class="review-avatar">
-      <%= image_tag review.avatar, alt: review.name %>
-    </div>
-  <% end %> 
-
-  <div class="review-details">
-    <h4 class="review-author"><%= review.name %></h4> 
-    <p class="review-content"><%= review.content %> </p>
-  </div>
-
-</div>
+<article  id="<%= dom_id review %>" class="review-card">
+         <% if review.avatar.attached? %>
+           <div class="review-avatar">
+             <%= image_tag review.avatar, style: "max-with: 50px; max-height: 50px;" %>
+           </div> 
+          <% end %> 
+          <h3 class="review-name"><%= review.name %> </h3> 
+          <p> <%= review.content %> </p> 
+</article> 
 
 

@@ -2,6 +2,10 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
+  # Tell the controller helpers -__ - for image tag 
+  config.action_controller.default_url_options = { host: 'localhost', port: 3000 }
+  config.active_storage.resolve_model_to_route = :rails_storage_proxy
 
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true

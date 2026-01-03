@@ -100,7 +100,8 @@
     border-radius: 5px;
   }
 </style>
-
+<%# listening to updates %> 
+<%= turbo_stream_from @landing_page %>
 <div id="<%= dom_id @landing_page %>">
 
   <%# 1. Hero Section %>
@@ -130,18 +131,9 @@
 
   <%# 1.2 reviews section %> 
   <section class="reviews-section">
-     <% @landing_page.reviews.each do |review| %>
-       <article class="review-card">
-         <% if review.avatar.attached? %>
-           <div class="review-avatar">
-             <%= image_tag review.avatar, style: "max-with: 50px; max-height: 50px;" %>
-           </div> 
-          <% end %> 
-
-          <h3 class="review-name"><%= review.name %> </h3> 
-          <p> <%= review.content %> </p> 
-      </article> 
-    <% end %> 
+    <div id="reviews-stream-container">
+      <%= render @landing_page.reviews %> 
+    </div>
   </section> 
 
   <%# 2. Services Section %>
