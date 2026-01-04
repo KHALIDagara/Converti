@@ -1,5 +1,5 @@
 class LandingPagesController < ApplicationController
-  before_action :set_landing_page, only: %i[ show edit update destroy styles business_details copywriting services update_reviews ]
+  before_action :set_landing_page, only: %i[ show edit update destroy styles update_styles business_details update_business_details copywriting update_copywriting services update_reviews ]
 
   # GET /landing_pages or /landing_pages.json
   def index
@@ -39,7 +39,7 @@ class LandingPagesController < ApplicationController
     respond_to do |format|
       if @landing_page.update(landing_page_params)
         format.html { redirect_to edit_landing_page_path(@landing_page), notice: "Landing page was successfully updated.", status: :see_other }
-        format.turbo_stream
+        format.turbo_stream { render "landing_pages/turbo/update" }
         format.json { render :show, status: :ok, location: @landing_page }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -49,17 +49,18 @@ class LandingPagesController < ApplicationController
   end
 
 
-  def update_reviews 
+  def update_reviews
     reviews_url_param =  params.require(:landing_page).permit(:google_maps_url)
-    if @landing_page.update!( google_maps_url: reviews_url_param[:google_maps_url])
+    if @landing_page.update!(google_maps_url: reviews_url_param[:google_maps_url])
       puts "the update_reviews action is called with #{reviews_url_param[:google_maps_url]} "
       puts " the landing page is #{@landing_page.business_details} "
       FetchReviewsJob.perform_later(@landing_page)
-    else 
+    else
       puts "did not update the google maps for the landign apge "
     end
   end
-    
+
+
 
   # DELETE /landing_pages/1 or /landing_pages/1.json
   def destroy
@@ -74,14 +75,67 @@ class LandingPagesController < ApplicationController
   def styles
   end
 
+  def update_styles
+    respond_to do |format|
+      if @landing_page.update(styling_params)
+        format.html { redirect_to edit_landing_page_path(@landing_page), notice: "Styles updated successfully." }
+        format.turbo_stream { render "landing_pages/turbo/update" }
+      else
+        format.html { render :styles, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
   def business_details
+    # render the view in the editor via turbo frame
+  end
+
+  def update_business_details
+    puts "=== BUSINESS DETAILS PARAMS ==="
+    puts business_details_params.inspect
+    puts "=== SELLING POINTS ==="
+    puts params[:landing_page][:selling_points].inspect
+    puts "=== KEYWORDS ==="
+    puts params[:landing_page][:keywords].inspect
+
+    respond_to do |format|
+      if @landing_page.update(business_details_params)
+        puts "=== AFTER UPDATE ==="
+        puts "Selling points: #{@landing_page.selling_points.inspect}"
+        puts "Keywords: #{@landing_page.keywords.inspect}"
+
+        # TODO: Trigger AI copywriting generation workflow here
+        # Example: GenerateCopywritingJob.perform_later(@landing_page)
+        format.html { redirect_to edit_landing_page_path(@landing_page), notice: "Business details updated successfully." }
+        format.turbo_stream { render "landing_pages/turbo/update" }
+      else
+        format.html { render :business_details, status: :unprocessable_entity }
+      end
+    end
   end
 
   def copywriting
+    # renders the view in the editor via turbo frame
+  end
+
+  def update_copywriting
+    respond_to do |format|
+      if @landing_page.update(copywriting_params)
+        format.html { redirect_to edit_landing_page_path(@landing_page), notice: "Copywriting updated successfully." }
+        format.turbo_stream { render "landing_pages/turbo/update" }
+      else
+        format.html { render :copywriting, status: :unprocessable_entity }
+      end
+    end
   end
 
   def services
+    ## renders the view in the editor via trubo frame
+  end
+
+
+  def update_services  ## this has no use just to follow the pattern
   end
 
   private
@@ -91,14 +145,44 @@ class LandingPagesController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def landing_page_params
-      ### the controller only permit the flat keys that's is why 
-      # we have destructed this json 
+    def business_details_params
+      permitted = params.expect(landing_page: [
+        :business_name,
+        :business_description,
+        :target_audience,
+        :offer,
+        { selling_points: [] },
+        { keywords: [] },
+        { business_details: { selling_points: [], keywords: [] } }
+      ])
+
+      # Check which format has the actual data
+      # Nested structure has priority if it contains non-empty values (cached form)
+      if permitted[:business_details].present? &&
+         (permitted[:business_details][:selling_points]&.reject(&:blank?)&.any? ||
+          permitted[:business_details][:keywords]&.reject(&:blank?)&.any?)
+        # Using nested structure (cached form has the data)
+        permitted[:selling_points] = permitted[:business_details][:selling_points]&.reject(&:blank?) || []
+        permitted[:keywords] = permitted[:business_details][:keywords]&.reject(&:blank?) || []
+      else
+        # Using flat structure (updated form)
+        permitted[:selling_points] = permitted[:selling_points]&.reject(&:blank?) || []
+        permitted[:keywords] = permitted[:keywords]&.reject(&:blank?) || []
+      end
+
+      permitted.delete(:business_details)
+      permitted
+    end
+
+    def copywriting_params
       params.expect(landing_page: [
-        :title,
-        { copywriting: { hero_section: [:heading, :subheading] } },
-        { business_details: [:business_name, :business_description, :conversion_goal, :call_to_action, :target_audience, selling_points: [], keywords: []] },
-        { styles: { colors: [:primaryColor, :secondaryColor ,:lightColor , :darkColor], fonts: [:primaryFont, :secondaryFont] } },
+        { copywriting: { hero_section: [ :heading, :subheading ] } }
+      ])
+    end
+
+    def styling_params
+      params.expect(landing_page: [
+        { styles: { colors: [ :primaryColor, :secondaryColor, :lightColor, :darkColor ], fonts: [ :primaryFont, :secondaryFont ] } },
         :logo,
         :hero_video,
         :background_image,
@@ -107,4 +191,21 @@ class LandingPagesController < ApplicationController
     end
 
 
+    def services_params  # just to follow the pattern
+    end
+
+    def landing_page_params
+      ### the controller only permit the flat keys that's is why
+      # we have destructed this json
+      params.expect(landing_page: [
+        :title,
+        { copywriting: { hero_section: [ :heading, :subheading ] } },
+        { business_details: [ :business_name, :business_description, :conversion_goal, :call_to_action, :target_audience, selling_points: [], keywords: [] ] },
+        { styles: { colors: [ :primaryColor, :secondaryColor, :lightColor, :darkColor ], fonts: [ :primaryFont, :secondaryFont ] } },
+        :logo,
+        :hero_video,
+        :background_image,
+        :video_overlay_image
+      ])
+    end
 end

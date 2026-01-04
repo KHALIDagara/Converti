@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "editor-replacable" do %>
-<%= form_with(model: @landing_page, class: "landing-page-form") do |form| %>
+<%= form_with(model: @landing_page, url: update_styles_landing_page_path(@landing_page), method: :patch, class: "landing-page-form") do |form| %>
   <% if @landing_page.errors.any? %>
     <div class="form-errors">
       <h2><%= pluralize(@landing_page.errors.count, "error") %> prohibited this @landing_page from being saved:</h2>

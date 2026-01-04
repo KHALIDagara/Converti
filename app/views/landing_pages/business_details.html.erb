@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "editor-replacable" do %>
-<%= form_with(model: @landing_page, class: "landing-page-form") do |form| %>
+<%= form_with(model: @landing_page, url: update_business_details_landing_page_path(@landing_page), method: :patch, class: "landing-page-form") do |form| %>
 <% if @landing_page.errors.any? %>
   <div class="form-errors">
     <h2><%= pluralize(@landing_page.errors.count, "error") %> prohibited this landing_page from being saved:</h2>
@@ -19,30 +19,23 @@
 <fieldset class="fieldset-group">
   <legend>Business Info</legend>
   <div class="form-field">
-    <%= label_tag 'landing_page[business_details][business_name]', "Business Name", class: "form-label" %>
-    <%# Added &. (safe navigation) and removed the extra nesting key %>
-    <%= text_field_tag 'landing_page[business_details][business_name]', @landing_page.business_details&.dig('business_name'), class: "form-input" %>
+    <%= form.label :business_name, "Business Name", class: "form-label" %>
+    <%= form.text_field :business_name, class: "form-input" %>
   </div>
-  
+
   <div class="form-field">
-    <%= label_tag 'landing_page[business_details][business_description]', "Business Description", class: "form-label" %>
-    <%= text_field_tag 'landing_page[business_details][business_description]', @landing_page.business_details&.dig('business_description'), class: "form-input" %>
+    <%= form.label :business_description, "Business Description", class: "form-label" %>
+    <%= form.text_area :business_description, class: "form-input", rows: 4 %>
   </div>
-    <div class="form-field">
-    <%= form.label :phone_number, class: "form-label" %>
-    <%= form.text_field :phone_number, class: "form-input" %>
-  </div>
+
   <div class="form-field">
-    <%= label_tag 'landing_page[business_details][target_audience]', "Target Audience", class: "form-label" %>
-    <%= text_field_tag 'landing_page[business_details][target_audience]', @landing_page.business_details&.dig('target_audience'), class: "form-input" %>
+    <%= form.label :target_audience, "Target Audience", class: "form-label" %>
+    <%= form.text_field :target_audience, class: "form-input" %>
   </div>
-    <div class="form-field">
-    <%= label_tag 'landing_page[business_details][convertion_goal]', "Converion Goal", class: "form-label" %>
-    <%= text_field_tag 'landing_page[business_details][convertion_goal]', @landing_page.business_details&.dig('convertion_goal'), class: "form-input" %>
-  </div>
-    <div class="form-field">
-    <%= label_tag 'landing_page[business_details][call_to_action]', "Call To Action", class: "form-label" %>
-    <%= text_field_tag 'landing_page[business_details][call_to_action]', @landing_page.business_details&.dig('call_to_action'), class: "form-input" %>
+
+  <div class="form-field">
+    <%= form.label :offer, "Offer", class: "form-label" %>
+    <%= form.text_field :offer, class: "form-input" %>
   </div>
   <div class="form-field">
       <%= form.label :google_maps_url, "Google Maps URL", class: "form-label" %>
@@ -58,13 +51,14 @@
   </div>
 
 
-   
+
     <div class="form-field" data-controller="selling-points">
       <label class="form-label">Selling Points</label>
+      <%= hidden_field_tag 'landing_page[selling_points][]', '' %>
       <div data-selling-points-target="list">
-        <% (@landing_page.business_details&.dig('selling_points') || []).each do |point| %>
+        <% (@landing_page.selling_points || []).each do |point| %>
           <div class="selling-point-item">
-            <%= text_field_tag 'landing_page[business_details][selling_points][]', point, class: "form-input", placeholder: "Enter selling point" %>
+            <%= text_field_tag 'landing_page[selling_points][]', point, class: "form-input", placeholder: "Enter selling point" %>
             <button type="button" data-action="click->selling-points#remove" class="remove-btn">Remove</button>
           </div>
         <% end %>
@@ -74,10 +68,11 @@
 
     <div class="form-field" data-controller="keywords">
       <label class="form-label">Keywords</label>
+      <%= hidden_field_tag 'landing_page[keywords][]', '' %>
       <div data-keywords-target="list">
-        <% (@landing_page.business_details&.dig('keywords') || []).each do |keyword| %>
+        <% (@landing_page.keywords || []).each do |keyword| %>
           <div class="keyword-item">
-            <%= text_field_tag 'landing_page[business_details][keywords][]', keyword, class: "form-input", placeholder: "Enter keyword" %>
+            <%= text_field_tag 'landing_page[keywords][]', keyword, class: "form-input", placeholder: "Enter keyword" %>
             <button type="button" data-action="click->keywords#remove" class="remove-btn">Remove</button>
           </div>
         <% end %>
@@ -88,7 +83,7 @@
 
 
   <div class="form-actions">
-    <%= form.submit "Generate CopyWriting", class: "submit-button" %>
+    <%= form.submit "Update Business Details", class: "submit-button" %>
   </div>
 <% end %>
 

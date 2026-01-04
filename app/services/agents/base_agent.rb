@@ -1,10 +1,10 @@
 module Agents
   class BaseAgent
-    def self.ask(content, tools: [], schema: nil)
+    def self.generate(prompt, tools: [], schema: nil)
       llm = LangchainConfig.llm
 
       # 1. Enhance Prompt with Schema Instructions
-      full_prompt = content
+      full_prompt = prompt
       if schema
         full_prompt += "\n\nIMPORTANT: You must find the answer and then respond STRICTLY with valid JSON adhering to this schema:\n#{schema.to_json}"
       end
@@ -12,19 +12,16 @@ module Agents
       # 2. Execute
       raw_response = if tools.any?
         assistant = ::Langchain::Assistant.new(llm: llm, tools: tools)
-        
-        # FIX: Add auto_tool_execution: true
-        # This forces the agent to run the tool, get the mock result, 
-        # and do a second pass to generate the final JSON.
+
         assistant.add_message_and_run(
-          content: full_prompt, 
+          content: full_prompt,
           auto_tool_execution: true
         )
-        
+
         # The last message is now the Final Answer, not the Tool Call
         assistant.messages.last.content
       else
-        options = { messages: [{ role: "user", content: full_prompt }] }
+        options = { messages: [ { role: "user", content: full_prompt } ] }
         options[:response_format] = { type: "json_object" } if schema
         llm.chat(**options).chat_completion
       end
