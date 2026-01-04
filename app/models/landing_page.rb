@@ -22,6 +22,7 @@ class LandingPage < ApplicationRecord
   validates :title, presence: true
 
 
+
   private
 
 

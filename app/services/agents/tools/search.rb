@@ -1,6 +1,6 @@
 ## app/agents/tools/search.rb
-module Agents
-  module Tools
+module Tools
+  module BasicTools
     class Search
       # 1. Use this mixin to enable the Tool DSL
       extend Langchain::ToolDefinition

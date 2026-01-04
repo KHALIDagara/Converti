@@ -1,4 +1,4 @@
-module Schemas
+module Agents::Schemas
   module PageSchemas
     # ==========================================
     # 1. HERO SECTION
