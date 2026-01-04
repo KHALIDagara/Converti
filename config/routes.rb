@@ -13,15 +13,11 @@ Rails.application.routes.draw do
         get :test2
       end
     end
+ end
 
-
-    resources :channels 
-       collection whatsapp_numbers  do 
-          get index_channel_whatsapp_number_path : 
-          post create_channel_whatsapp_number(@channel)
-       end
-    end 
-  end
-
+  resources :channels 
+      post '/webhooks/whatsapp/:instance_name', to: 'whatsapp#webhook'
+  end 
+ 
   root "landing_pages#index"
 end
